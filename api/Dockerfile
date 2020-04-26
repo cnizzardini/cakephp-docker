@@ -14,7 +14,7 @@ RUN apt-get update \
     zlib1g-dev \
     libicu-dev \
     g++ \
-    && docker-php-ext-configure intl
+    && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     pdo \
     pdo_mysql \
@@ -30,6 +30,6 @@ RUN apt-get update \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && composer clear-cache
 
-CMD ["bin/cake","server","-v","-H","api","-p","8765"]
+#CMD ["bin/cake","server","-v","-H","api","-p","8765"]
 
 WORKDIR "/var/www/api"

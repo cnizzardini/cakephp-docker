@@ -4,7 +4,16 @@ services:
   api:
     build: ./api
     container_name: mixerapi-api
-    ports:
-      - "8080:8765"
     volumes:
       - ./api/:/var/www/api
+
+  api-nginx:
+    image: nginx:latest
+    container_name: api-nginx
+    volumes:
+      - ./api:/var/www/api
+      - ./api/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
