@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  api:
+    build: ./api
+    container_name: mixerapi-api
+    ports:
+      - "8080:8765"
+    volumes:
+      - ./api/:/var/www/api
