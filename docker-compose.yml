@@ -9,7 +9,7 @@ services:
 
   api-nginx:
     image: nginx:latest
-    container_name: api-nginx
+    container_name: mixerapi-nginx
     volumes:
       - ./api:/var/www/api
       - ./api/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
