@@ -33,11 +33,14 @@ init:
 	&& sed -i '/export SECURITY_SALT/c\export SECURITY_SALT="$(SALT)"' app/config/.env \
 	&& docker-compose up -d --build
 up:
-	@printf '\U1F40B ' && echo  up \
+	@printf '\U1F40B ' && echo up \
 	&& docker-compose up -d
 down:
-	@printf '\U1F40B ' && echo  down \
+	@printf '\U1F40B ' && echo down \
 	&& docker-compose down
+stop:
+	@printf '\U1F40B ' && echo stop \
+	&& docker-compose stop
 restart:
 	@printf '\U1F40B ' && echo restart \
 	&& docker-compose restart
