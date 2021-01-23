@@ -9,7 +9,8 @@ services:
       PHP_IDE_CONFIG: 'serverName=localhost'
     volumes:
       - ./app/:/var/www/app
-      - ./.docker/php/:/usr/local/etc/php
+      - ./.docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./.docker/php/conf.d/20-overrides.ini:/usr/local/etc/php/conf.d/20-overrides.ini
     depends_on:
       - db
 
