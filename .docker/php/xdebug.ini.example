@@ -1,0 +1,5 @@
+[xdebug]
+xdebug.mode=off
+xdebug.discover_client_host=true
+xdebug.client_host=host.docker.internal
+xdebug.start_with_request=yes

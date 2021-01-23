@@ -1,19 +1,42 @@
 version: '3.4'
 
 services:
-  api:
-    build: ./api
-    container_name: mixerapi-api
+  php:
+    build:
+      context: .docker/
+    container_name: cakephp-php
+    environment:
+      PHP_IDE_CONFIG: 'serverName=localhost'
     volumes:
-      - ./api/:/var/www/api
+      - ./app/:/var/www/app
+      - ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    depends_on:
+      - db
 
-  api-nginx:
-    image: nginx:latest
-    container_name: mixerapi-nginx
+  db:
+    image: mysql:latest
+    container_name: cakephp-db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cakephp
+      MYSQL_USER: cakephp
+      MYSQL_PASSWORD: cakephp
     volumes:
-      - ./api:/var/www/api
-      - ./api/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+  web:
+    image: nginx:latest
+    container_name: cakephp-web
+    volumes:
+      - ./app/:/var/www/app
+      - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "8080:80"
     depends_on:
-      - api
+      - php
+volumes:
+  data:
