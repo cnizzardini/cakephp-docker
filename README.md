@@ -31,6 +31,7 @@ docker-compose up --build
 cp .docker/php/php.ini.development .docker/php/php.ini
 cp .docker/php/conf.d/20-overrides.ini.development .docker/php/conf.d/20-overrides.ini
 cp app/config/.env.example app/config/.env
+docker exec cakephp-php composer install --no-interaction
 ```
 
 Change `APP_NAME` and `SECURITY_SALT` in your `app/config/.env` file.

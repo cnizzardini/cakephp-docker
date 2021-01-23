@@ -31,7 +31,8 @@ init:
 	&& cp app/config/.env.example app/config/.env \
 	&& sed -i '/export APP_NAME/c\export APP_NAME="APP"' app/config/.env \
 	&& sed -i '/export SECURITY_SALT/c\export SECURITY_SALT="$(SALT)"' app/config/.env \
-	&& docker-compose up -d --build
+	&& docker-compose up -d --build \
+	&& docker exec cakephp-php composer install --no-interaction
 up:
 	@printf '\U1F40B ' && echo up \
 	&& docker-compose up -d
