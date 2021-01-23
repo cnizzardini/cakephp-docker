@@ -24,11 +24,12 @@ After cloning this repository run:
 make init
 ```
 
-or...
+If you want to manually do things then run the commands below and update your APP and SALT values.
 
 ```console
 docker-compose up --build
-cp .docker/php/xdebug.ini.example .docker/php/xdebug.ini
+cp .docker/php/php.ini.development .docker/php/php.ini
+cp .docker/php/conf.d/20-overrides.ini.development .docker/php/conf.d/20-overrides.ini
 cp app/config/.env.example app/config/.env
 ```
 

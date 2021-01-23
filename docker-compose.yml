@@ -9,7 +9,7 @@ services:
       PHP_IDE_CONFIG: 'serverName=localhost'
     volumes:
       - ./app/:/var/www/app
-      - ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./.docker/php/:/usr/local/etc/php
     depends_on:
       - db
 

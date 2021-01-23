@@ -51,5 +51,3 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN pecl install xdebug \
     && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
     && docker-php-ext-enable xdebug
-
-RUN chmod 774 -R tmp logs

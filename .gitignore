@@ -1,6 +1,7 @@
 # project files     #
 ######################
-.docker/php/xdebug.ini
+.docker/php/conf.d/*.ini
+.docker/php/*.ini
 
 # OS generated files #
 ######################

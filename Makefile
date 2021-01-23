@@ -26,11 +26,12 @@ endif
 SALT := $(shell cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 
 init:
-	cp .docker/php/xdebug.ini.example .docker/php/xdebug.ini \
+	cp .docker/php/php.ini.development .docker/php/php.ini \
+	&& cp .docker/php/conf.d/20-overrides.ini.development .docker/php/conf.d/20-overrides.ini \
 	&& cp app/config/.env.example app/config/.env \
 	&& sed -i '/export APP_NAME/c\export APP_NAME="APP"' app/config/.env \
 	&& sed -i '/export SECURITY_SALT/c\export SECURITY_SALT="$(SALT)"' app/config/.env \
-	&& docker-compose up --build
+	&& docker-compose up -d --build
 up:
 	@printf '\U1F40B ' && echo  up \
 	&& docker-compose up -d
@@ -48,15 +49,15 @@ mysql:
 	&& mysql -u root -h 0.0.0.0 -p --port 3307
 xdebug-off:
 	@docker container pause cakephp-php > /dev/null \
-	&& cd .docker/php \
-	&& sed -i '/xdebug.mode/c\xdebug.mode=off' xdebug.ini \
+	&& cd .docker/php/conf.d \
+	&& sed -i '/xdebug.mode/c\xdebug.mode=off' 20-overrides.ini \
 	&& docker container unpause cakephp-php > /dev/null \
 	&& docker container restart cakephp-php > /dev/null \
 	&& printf '\U1F515' && echo ${YELLOW} Xdebug Off
 xdebug-on:
 	@docker container pause cakephp-php > /dev/null \
-	&& cd .docker/php \
-	&& sed -i '/xdebug.mode/c\xdebug.mode=coverage,debug' xdebug.ini \
+	&& cd .docker/php/conf.d \
+	&& sed -i '/xdebug.mode/c\xdebug.mode=coverage,debug' 20-overrides.ini \
 	&& docker container unpause cakephp-php > /dev/null \
 	&& docker container restart cakephp-php > /dev/null \
 	&& printf '\U1F41E' && echo ${GREEN} Xdebug On
