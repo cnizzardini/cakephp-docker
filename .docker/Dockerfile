@@ -1,16 +1,12 @@
 #
 # Composer
 #
-FROM composer:latest AS composer
-
-RUN composer self-update
+FROM composer:2 AS composer
 
 #
 # PHP
 #
 FROM php:7.4-fpm
-
-ARG ENVIRONMENT
 
 WORKDIR /var/www/app
 
@@ -27,7 +23,6 @@ RUN apt-get update \
     zlib1g-dev \
     libicu-dev \
     g++ \
-    git \
     zip \
     unzip \
     && docker-php-ext-configure intl \
@@ -43,11 +38,11 @@ RUN apt-get update \
     sqlite3 \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
-RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+RUN pecl install xdebug \
+    && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
+    && docker-php-ext-enable xdebug
 
 COPY . .
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-RUN pecl install xdebug \
-    && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
-    && docker-php-ext-enable xdebug
+RUN apt-get remove -y zlib1g-dev libicu-dev g++ && apt-get clean && apt-get autoremove -y
