@@ -18,7 +18,7 @@ A [Makefile](Makefile) is provided with some optional commands for your convenie
 
 ## Installation
 
-After cloning this repository run:
+Fork and clone this repository then:
 
 ```console
 make init

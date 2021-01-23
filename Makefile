@@ -23,7 +23,8 @@ else
 	RESET        := ""
 endif
 
-SALT := $(shell cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+SALT    := $(shell cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+PHP     := $(shell docker-compose ps -q php)
 
 init:
 	cp .docker/php/php.ini.development .docker/php/php.ini \
@@ -32,7 +33,7 @@ init:
 	&& sed -i '/export APP_NAME/c\export APP_NAME="APP"' app/config/.env \
 	&& sed -i '/export SECURITY_SALT/c\export SECURITY_SALT="$(SALT)"' app/config/.env \
 	&& docker-compose up -d --build \
-	&& docker exec cakephp-php composer install --no-interaction
+	&& docker exec $(PHP) composer install
 up:
 	@printf '\U1F40B ' && echo up \
 	&& docker-compose up -d
@@ -47,7 +48,7 @@ restart:
 	&& docker-compose restart
 bash:
 	@printf '\U1F41A ' && echo Bash Shell \
-	&& docker exec -it cakephp-php bash
+	&& docker exec -it $(PHP) bash
 mysql:
 	@printf '\U1F42C ' && echo MySQL Shell \
 	&& mysql -u root -h 0.0.0.0 -p --port 3307
@@ -55,13 +56,13 @@ xdebug-off:
 	@docker container pause cakephp-php > /dev/null \
 	&& cd .docker/php/conf.d \
 	&& sed -i '/xdebug.mode/c\xdebug.mode=off' 20-overrides.ini \
-	&& docker container unpause cakephp-php > /dev/null \
-	&& docker container restart cakephp-php > /dev/null \
+	&& docker container unpause $(PHP) > /dev/null \
+	&& docker container restart $(PHP) > /dev/null \
 	&& printf '\U1F515' && echo ${YELLOW} Xdebug Off
 xdebug-on:
 	@docker container pause cakephp-php > /dev/null \
 	&& cd .docker/php/conf.d \
 	&& sed -i '/xdebug.mode/c\xdebug.mode=coverage,debug' 20-overrides.ini \
-	&& docker container unpause cakephp-php > /dev/null \
-	&& docker container restart cakephp-php > /dev/null \
+	&& docker container unpause $(PHP) > /dev/null \
+	&& docker container restart $(PHP) > /dev/null \
 	&& printf '\U1F41E' && echo ${GREEN} Xdebug On
