@@ -33,7 +33,7 @@ init:
 	&& sed -i '/export APP_NAME/c\export APP_NAME="APP"' app/config/.env \
 	&& sed -i '/export SECURITY_SALT/c\export SECURITY_SALT="$(SALT)"' app/config/.env \
 	&& docker-compose up -d --build \
-	&& docker exec $(PHP) composer install
+	&& docker exec $(shell docker-compose ps -q php) composer install
 up:
 	@printf '\U1F40B ' && echo up \
 	&& docker-compose up -d
@@ -53,14 +53,14 @@ mysql:
 	@printf '\U1F42C ' && echo MySQL Shell \
 	&& mysql -u root -h 0.0.0.0 -p --port 3307
 xdebug-off:
-	@docker container pause cakephp-php > /dev/null \
+	@docker container pause $(PHP) > /dev/null \
 	&& cd .docker/php/conf.d \
 	&& sed -i '/xdebug.mode/c\xdebug.mode=off' 20-overrides.ini \
 	&& docker container unpause $(PHP) > /dev/null \
 	&& docker container restart $(PHP) > /dev/null \
 	&& printf '\U1F515' && echo ${YELLOW} Xdebug Off
 xdebug-on:
-	@docker container pause cakephp-php > /dev/null \
+	@docker container pause $(PHP) > /dev/null \
 	&& cd .docker/php/conf.d \
 	&& sed -i '/xdebug.mode/c\xdebug.mode=coverage,debug' 20-overrides.ini \
 	&& docker container unpause $(PHP) > /dev/null \
