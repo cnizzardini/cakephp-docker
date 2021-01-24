@@ -19,7 +19,6 @@ ENV TERM=linux
 RUN apk add libzip icu
 RUN apk add --no-cache --virtual .build-deps curl-dev libxml2-dev icu-dev libedit-dev libzip-dev
 RUN docker-php-ext-install intl pdo pdo_mysql curl json opcache readline xml zip
-RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 RUN rm -rf app/vendor logs/* tmp/*
 
 # dev
