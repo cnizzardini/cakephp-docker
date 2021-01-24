@@ -8,11 +8,11 @@
 
 A simple [cakephp/app 4.2](https://github.com/cakephp/app/releases/tag/4.2.1) docker setup.
 
-| Service      | Host:Port | Host:Port | Docker Host |
-| ----------- | ----------- | ----------- | ----------- |
-| PHP7.4-FPM w/ Xdebug 3    | -                 | php |
-| NGINX 1.19                | localhost:8080    | web |
-| MySQL 8                   | localhost:3607    | db |
+| Service                   | Host:Port         | Docker Host   |
+| -----------               | -----------       | -----------   |
+| PHP7.4-FPM w/ Xdebug 3    | -                 | php           |
+| NGINX 1.19                | localhost:8080    | web           |
+| MySQL 8                   | localhost:3607    | db            |
 
 A [Makefile](Makefile) is provided with some optional commands for your convenience.
 
@@ -58,11 +58,13 @@ make php.sh
 
 ### MySQL
 
-You can quickly drop into the mysql shell as root by running 
+Login via the mysql client (requires mysql client on your localhost):
 
 ```console
-make db.sh
+make db.mysql
 ```
+
+To access the shell `make db.sh`
 
 See [docker-compose.yml](docker-compose.yml) for accounts and passwords. See `app/config/.env` for DSN settings.
 

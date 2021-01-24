@@ -1,6 +1,13 @@
 SHELL=/bin/bash
 
+#
+# project vars
+#
+IMAGE_NAME      := "docker-cakephp"
+
+#
 # define standard colors
+#
 ifneq (,$(findstring xterm,${TERM}))
 	BLACK        := $(shell tput -Txterm setaf 0)
 	RED          := $(shell tput -Txterm setaf 1)
@@ -23,6 +30,9 @@ else
 	RESET        := ""
 endif
 
+#
+# vars
+#
 SALT    := $(shell cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 PHP     := $(shell docker-compose ps -q php)
 
@@ -61,9 +71,9 @@ restart:
 	@printf '\U1F40B ' && echo restart \
 	&& docker-compose restart
 build.prod:
-	docker build --build-arg ENVIRONMENT=prod -t docker-cakephp .docker/
+	docker build --build-arg ENVIRONMENT=prod -t $(IMAGE_NAME) .docker/
 build.dev:
-	docker build -t docker-cakephp-dev .docker/
+	docker build -t $(IMAGE_NAME)-dev .docker/
 
 #
 # container shell commands
@@ -72,10 +82,13 @@ php.sh:
 	@printf '\U1F41A ' && echo  php shell \
 	&& docker exec -it $(PHP) sh
 db.sh:
+	@printf '\U1F41A ' && echo  db shell \
+	&& docker exec -it $(shell docker-compose ps -q db) sh
+db.mysql:
 	@printf '\U1F42C ' && echo  mysql shell \
 	&& mysql -u root -h 0.0.0.0 -p --port 3307
 web.sh:
-	@printf '\U1F578 ' && echo  web shell \
+	@printf '\U1F41A ' && echo  web shell \
 	&& docker exec -it $(shell docker-compose ps -q web) sh
 
 #
