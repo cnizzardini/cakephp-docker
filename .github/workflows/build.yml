@@ -16,5 +16,5 @@ jobs:
       - name: Build & Test
         run: |
           make init
-          make composer-install
+          make composer.install
           make test

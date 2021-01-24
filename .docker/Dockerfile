@@ -6,7 +6,7 @@ FROM composer:2 AS composer
 #
 # PHP
 #
-FROM php:7.4-fpm
+FROM php:7.4-fpm-alpine
 
 ARG ENVIRONMENT
 
@@ -15,42 +15,23 @@ WORKDIR /var/www/app
 # Fixes some weird terminal issues such as broken clear / CTRL+L
 ENV TERM=linux
 
-# Ensure apt doesn't ask questions when installing stuff
-ENV DEBIAN_FRONTEND=noninteractive
-
 # Required packages
-RUN apt-get update \
-    && apt-get -y --no-install-recommends install \
-    curl \
-    zlib1g-dev \
-    libicu-dev \
-    g++ \
-    && docker-php-ext-configure intl \
-    && docker-php-ext-install intl \
-    pdo \
-    pdo_mysql \
-    curl \
-    json \
-    opcache \
-    readline \
-    xml \
-    && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+RUN apk add libzip icu
+RUN apk add --no-cache --virtual .build-deps curl-dev libxml2-dev icu-dev libedit-dev libzip-dev
+RUN docker-php-ext-install intl pdo pdo_mysql curl json opcache readline xml zip
+RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+RUN rm -rf app/vendor logs/* tmp/*
 
-COPY . .
-COPY --from=composer /usr/bin/composer /usr/bin/composer
-
-# Development packages
-RUN if [["$ENVIRONMENT" != "production"]]; then \
-    apt-get -y --no-install-recommends install \
-    zip \
-    unzip \
-    pecl install xdebug \
-    && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
-    && docker-php-ext-enable \
-    xdebug \
-    zip \
-    sqlite3; \
+# dev
+RUN if [[ "$ENVIRONMENT" != "prod" ]]; then \
+    apk add --no-cache --virtual .php-deps git file re2c autoconf make zlib zlib-dev g++ \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
+    && apk del -f .php-deps; \
 fi
 
 # Cleanup
-RUN apt-get remove -y zlib1g-dev libicu-dev g++ && apt-get clean && apt-get autoremove -y
+RUN apk del -f .build-deps && rm -rf /tmp/* /var/cache/apk/*
+
+COPY . .
+COPY --from=composer /usr/bin/composer /usr/bin/composer

@@ -32,10 +32,22 @@ init:
 	&& cp app/config/.env.example app/config/.env \
 	&& sed -i '/export APP_NAME/c\export APP_NAME="APP"' app/config/.env \
 	&& sed -i '/export SECURITY_SALT/c\export SECURITY_SALT="$(SALT)"' app/config/.env \
-	&& docker-compose up -d --build
-composer-install:
-	docker-compose up -d \
-	&& docker exec -it $(PHP) composer install --no-interaction
+	&& docker-compose build \
+	&& docker-compose up -d
+
+#
+# composer commands
+#
+composer.install:
+	docker exec $(PHP) composer install --no-interaction
+composer.test:
+	docker exec -it $(PHP) composer test
+composer.check:
+	docker exec -it $(PHP) composer check
+
+#
+# docker & docker-compose commands
+#
 up:
 	@printf '\U1F40B ' && echo up \
 	&& docker-compose up -d
@@ -48,25 +60,38 @@ stop:
 restart:
 	@printf '\U1F40B ' && echo restart \
 	&& docker-compose restart
-bash:
-	@printf '\U1F41A ' && echo Bash Shell \
-	&& docker exec -it $(PHP) bash
-mysql:
-	@printf '\U1F42C ' && echo MySQL Shell \
+build.prod:
+	docker build --build-arg ENVIRONMENT=prod -t docker-cakephp .docker/
+build.dev:
+	docker build -t docker-cakephp-dev .docker/
+
+#
+# container shell commands
+#
+php.sh:
+	@printf '\U1F41A ' && echo  php shell \
+	&& docker exec -it $(PHP) sh
+db.sh:
+	@printf '\U1F42C ' && echo  mysql shell \
 	&& mysql -u root -h 0.0.0.0 -p --port 3307
-xdebug-off:
+web.sh:
+	@printf '\U1F578 ' && echo  web shell \
+	&& docker exec -it $(shell docker-compose ps -q web) sh
+
+#
+# xdebug
+#
+xdebug.off:
 	@docker container pause $(PHP) > /dev/null \
 	&& cd .docker/php/conf.d \
 	&& sed -i '/xdebug.mode/c\xdebug.mode=off' 20-overrides.ini \
 	&& docker container unpause $(PHP) > /dev/null \
 	&& docker container restart $(PHP) > /dev/null \
 	&& printf '\U1F515' && echo ${YELLOW} Xdebug Off
-xdebug-on:
+xdebug.on:
 	@docker container pause $(PHP) > /dev/null \
 	&& cd .docker/php/conf.d \
 	&& sed -i '/xdebug.mode/c\xdebug.mode=coverage,debug' 20-overrides.ini \
 	&& docker container unpause $(PHP) > /dev/null \
 	&& docker container restart $(PHP) > /dev/null \
 	&& printf '\U1F41E' && echo ${GREEN} Xdebug On
-test:
-	docker exec -it $(PHP) composer test

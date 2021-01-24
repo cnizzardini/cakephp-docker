@@ -3,16 +3,16 @@
 [![CakePHP](https://img.shields.io/badge/cakephp-4.2-red?logo=cakephp)](https://book.cakephp.org/4/en/index.html)
 [![Docker](https://img.shields.io/badge/docker-0db7ed.svg?logo=docker)](https://www.docker.com)
 [![PHP](https://img.shields.io/badge/php-7.4-8892BF.svg?logo=php)](https://php.net/)
-[![NGINX](https://img.shields.io/badge/nginx-latest-009639.svg?logo=nginx)](https://www.nginx.com/)
-[![MySQL](https://img.shields.io/badge/mysql-latest-00758F.svg?logo=mysql)](https://www.mysql.com/)
+[![NGINX](https://img.shields.io/badge/nginx-1.19-009639.svg?logo=nginx)](https://www.nginx.com/)
+[![MySQL](https://img.shields.io/badge/mysql-8-00758F.svg?logo=mysql)](https://www.mysql.com/)
 
 A simple [cakephp/app 4.2](https://github.com/cakephp/app/releases/tag/4.2.1) docker setup.
 
-| Service      | Host:Port | Docker Host |
-| ----------- | ----------- | ----------- |
+| Service      | Host:Port | Host:Port | Docker Host |
+| ----------- | ----------- | ----------- | ----------- |
 | PHP7.4-FPM w/ Xdebug 3    | -                 | php |
-| NGINX                     | localhost:8080    | web |
-| MySQL                     | localhost:3607    | db |
+| NGINX 1.19                | localhost:8080    | web |
+| MySQL 8                   | localhost:3607    | db |
 
 A [Makefile](Makefile) is provided with some optional commands for your convenience.
 
@@ -22,7 +22,7 @@ Fork and clone this repository then run:
 
 ```console
 make init
-make composer-install
+make composer.install
 ```
 
 If you want to manually do things then run the commands below and update your APP and SALT values.
@@ -53,7 +53,7 @@ run `make up`, `make stop`, and `make restart` instead of the `docker-compose` e
 To access your application's bash shell:
 
 ```console
-make bash
+make php.sh
 ```
 
 ### MySQL
@@ -61,7 +61,7 @@ make bash
 You can quickly drop into the mysql shell as root by running 
 
 ```console
-make mysql
+make db.sh
 ```
 
 See [docker-compose.yml](docker-compose.yml) for accounts and passwords. See `app/config/.env` for DSN settings.
@@ -73,13 +73,13 @@ Xdebug is disabled by default. Both these commands handle modifying the `xdebug.
 To enable: 
 
 ```console
-make xdebug-on
+make xdebug.on
 ```
 
 To disable:
 
 ```console
-make xdebug-off
+make xdebug.off
 ```
 
 ### PHPStorm + XDebug
@@ -95,3 +95,17 @@ Go to `File > Settings > Languages & Frameworks > PHP > Servers`
 Map your projects app directory to the absolute path on the docker container `/var/www/app`
 
 XDebug settings may be modified through `.docker/php/xdebug.ini.example`
+
+## Docker Builds
+
+Production: 
+
+```console
+make build.prod
+```
+
+Development:
+
+```console
+make build.dev
+```
