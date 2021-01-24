@@ -10,7 +10,7 @@ ifneq (,$(findstring xterm,${TERM}))
 	PURPLE       := $(shell tput -Txterm setaf 5)
 	BLUE         := $(shell tput -Txterm setaf 6)
 	WHITE        := $(shell tput -Txterm setaf 7)
-	RESET := $(shell tput -Txterm sgr0)
+	RESET        := $(shell tput -Txterm sgr0)
 else
 	BLACK        := ""
 	RED          := ""
@@ -33,6 +33,9 @@ init:
 	&& sed -i '/export APP_NAME/c\export APP_NAME="APP"' app/config/.env \
 	&& sed -i '/export SECURITY_SALT/c\export SECURITY_SALT="$(SALT)"' app/config/.env \
 	&& docker-compose up -d --build
+composer-install:
+	docker-compose up -d \
+	&& docker exec -it $(PHP) composer install --no-interaction
 up:
 	@printf '\U1F40B ' && echo up \
 	&& docker-compose up -d
@@ -65,3 +68,5 @@ xdebug-on:
 	&& docker container unpause $(PHP) > /dev/null \
 	&& docker container restart $(PHP) > /dev/null \
 	&& printf '\U1F41E' && echo ${GREEN} Xdebug On
+test:
+	docker exec -it $(PHP) composer test

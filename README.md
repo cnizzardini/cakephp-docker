@@ -18,12 +18,11 @@ A [Makefile](Makefile) is provided with some optional commands for your convenie
 
 ## Installation
 
-Fork and clone this repository then:
+Fork and clone this repository then run:
 
 ```console
 make init
-make bash
-composer install
+make composer-install
 ```
 
 If you want to manually do things then run the commands below and update your APP and SALT values.
