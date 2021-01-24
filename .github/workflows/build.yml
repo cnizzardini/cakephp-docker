@@ -8,13 +8,34 @@ on:
 
 jobs:
   build:
+    name: Docker Build
     runs-on: ubuntu-latest
-    name: Docker Compose Build
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Build & Test
+      - name: Pull images
+        run: docker-compose pull
+      - name: Start services
+        run: docker-compose up --build -d
+      - name: Wait for services
         run: |
-          make init
-          make composer.install
-          make test
+         while status="$(docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" "$(docker-compose ps -q php)")"; do
+           case $status in
+             starting) sleep 1;;
+             healthy) exit 0;;
+             unhealthy)
+               docker-compose ps
+               docker-compose logs
+               exit 1
+             ;;
+           esac
+         done
+         exit 1
+      - name: Composer Install
+        run: docker-compose exec -T php composer install --no-interaction
+      - name: HTTP Check
+        run: curl -v -o /dev/null http://localhost:8080
+      - name: MySQL Check
+        run: mysql -u root -h 0.0.0.0 -proot --port 3307 -e "status"
+      - name: Composer Test
+        run: docker-compose exec -T php composer test
