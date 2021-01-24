@@ -65,7 +65,7 @@ You can quickly drop into the mysql shell as root by running
 make mysql
 ```
 
-See [docker-compose.yml](docker-compose.yml]) for accounts and passwords. See `app/config/.env` for DSN settings.
+See [docker-compose.yml](docker-compose.yml) for accounts and passwords. See `app/config/.env` for DSN settings.
 
 ### XDebug
 
