@@ -8,11 +8,11 @@
 
 A simple [cakephp/app 4.2](https://github.com/cakephp/app/releases/tag/4.2.1) docker setup.
 
-| Service      | Host:Port | Docker Host | Container Name | 
-| ----------- | ----------- | ----------- | ----------- |
-| PHP7.4-FPM w/ Xdebug 3    | -                 | php | cakephp-php |
-| NGINX                     | localhost:8080    | web |cakephp-web |
-| MySQL                     | localhost:3607    | db | cakephp-db |
+| Service      | Host:Port | Docker Host |
+| ----------- | ----------- | ----------- |
+| PHP7.4-FPM w/ Xdebug 3    | -                 | php |
+| NGINX                     | localhost:8080    | web |
+| MySQL                     | localhost:3607    | db |
 
 A [Makefile](Makefile) is provided with some optional commands for your convenience.
 
@@ -22,6 +22,8 @@ Fork and clone this repository then:
 
 ```console
 make init
+make bash
+composer install
 ```
 
 If you want to manually do things then run the commands below and update your APP and SALT values.
@@ -31,10 +33,16 @@ docker-compose up --build
 cp .docker/php/php.ini.development .docker/php/php.ini
 cp .docker/php/conf.d/20-overrides.ini.development .docker/php/conf.d/20-overrides.ini
 cp app/config/.env.example app/config/.env
-docker exec cakephp-php composer install --no-interaction
 ```
 
 Change `APP_NAME` and `SECURITY_SALT` in your `app/config/.env` file.
+
+Then login to the container and run composer install.
+
+```console
+docker exec <THE_CONTAINER_NAME> composer install --no-interaction
+```
+
 
 ## Usage
 
