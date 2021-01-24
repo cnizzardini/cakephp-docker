@@ -97,8 +97,6 @@ Go to `File > Settings > Languages & Frameworks > PHP > Servers`
 
 Map your projects app directory to the absolute path on the docker container `/var/www/app`
 
-XDebug settings may be modified through `.docker/php/xdebug.ini.example`
-
 ## Docker Builds
 
 Production: 
