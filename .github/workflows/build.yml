@@ -32,10 +32,10 @@ jobs:
          done
          exit 1
       - name: Composer Install
-        run: docker-compose exec -T php composer install --no-interaction
+        run: docker-compose exec -T $(docker-compose ps -q php) composer install --no-interaction
       - name: HTTP Check
         run: curl -v -o /dev/null http://localhost:8080
       - name: MySQL Check
         run: mysql -u root -h 0.0.0.0 -proot --port 3307 -e "status"
       - name: Composer Test
-        run: docker-compose exec -T php composer test
+        run: docker-compose exec -T $(docker-compose ps -q php) composer test
