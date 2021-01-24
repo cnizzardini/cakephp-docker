@@ -43,11 +43,10 @@ Then run composer install in your php container:
 docker exec $(docker-compose ps -q php) composer install --no-interaction
 ```
 
-
 ## Usage
 
 After install browse to [http://localhost:8080](http://localhost:8080) to see the CakePHP welcome page. You may 
-run `make up`, `make stop`, and `make restart` instead of the `docker-compose` equivalents. 
+run `make up`, `make stop`, and `make restart` instead of the `docker-compose` equivalents.
 
 ### PHP 
 
@@ -56,6 +55,10 @@ To access your application's bash shell:
 ```console
 make php.sh
 ```
+
+See [.docker/php](.docker/php) for PHP INI settings. During `make init` the `php.ini.development` is copied to 
+`php.ini`. The former is then mounted as a volume in the php container. The `20-overrides.ini.development` is used 
+for turning xdebug on and off (see below) and is copy/mounted like `php.ini`.
 
 ### MySQL
 
