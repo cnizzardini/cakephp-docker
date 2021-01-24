@@ -26,7 +26,7 @@ make init
 make composer.install
 ```
 
-If you want to manually do things then run the commands below and update your APP and SALT values.
+If you want to manually do things then run the commands below:
 
 ```console
 docker-compose up --build
@@ -37,10 +37,10 @@ cp app/config/.env.example app/config/.env
 
 Change `APP_NAME` and `SECURITY_SALT` in your `app/config/.env` file.
 
-Then login to the container and run composer install.
+Then run composer install in your php container:
 
 ```console
-docker exec <THE_CONTAINER_NAME> composer install --no-interaction
+docker exec $(docker-compose ps -q php) composer install --no-interaction
 ```
 
 
