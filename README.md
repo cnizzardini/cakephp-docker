@@ -29,7 +29,7 @@ make composer.install
 ## Usage
 
 After install browse to [http://localhost:8080](http://localhost:8080) to see the CakePHP welcome page. You may 
-run `make up`, `make stop`, and `make restart` instead of the `docker-compose` equivalents.
+run `make up`, `make down`, `make stop`, and `make restart` instead of the `docker-compose` equivalents.
 
 ### PHP 
 
