@@ -31,7 +31,6 @@ fi
 
 # Cleanup
 RUN apk del -f .build-deps && rm -rf /tmp/* /var/cache/apk/*
-RUN rm -rf app/vendor logs/* tmp/*
 
 # Add user
 RUN adduser --disabled-password --gecos '' -u $USER_ID -G www-data cakephp
