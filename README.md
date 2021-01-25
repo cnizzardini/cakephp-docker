@@ -26,23 +26,6 @@ make init
 make composer.install
 ```
 
-If you want to manually do things then run the commands below:
-
-```console
-docker-compose up --build
-cp .docker/php/php.ini.development .docker/php/php.ini
-cp .docker/php/conf.d/20-overrides.ini.development .docker/php/conf.d/20-overrides.ini
-cp app/config/.env.example app/config/.env
-```
-
-Change `APP_NAME` and `SECURITY_SALT` in your `app/config/.env` file.
-
-Then run composer install in your php container:
-
-```console
-docker exec $(docker-compose ps -q php) composer install --no-interaction
-```
-
 ## Usage
 
 After install browse to [http://localhost:8080](http://localhost:8080) to see the CakePHP welcome page. You may 
@@ -56,9 +39,9 @@ To access your application's bash shell:
 make php.sh
 ```
 
-See [.docker/php](.docker/php) for PHP INI settings. During `make init` the `php.ini.development` is copied to 
-`php.ini`. The former is then mounted as a volume in the php container. The `20-overrides.ini.development` is used 
-for turning xdebug on and off (see below) and is copy/mounted like `php.ini`.
+See `.docker/php` for PHP INI settings. During `make init` the `php.ini.development` is copied to`php.ini`. The former 
+is then mounted as a volume in the php container. The `20-overrides.ini.development` is used for turning xdebug on 
+and off (see below) and is copy/mounted like `php.ini`.
 
 ### MySQL
 
@@ -100,7 +83,7 @@ Go to `File > Settings > Languages & Frameworks > PHP > Servers`
 
 Map your projects app directory to the absolute path on the docker container `/var/www/app`
 
-## Docker Builds
+### Docker Builds
 
 Production: 
 
