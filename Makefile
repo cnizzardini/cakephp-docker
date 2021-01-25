@@ -81,9 +81,11 @@ build.dev:
 # container shell commands
 #
 php.sh:
-    # note: you can login as root via: docker exec -it --user root $(shell docker-compose ps -q php) sh
 	@printf '\U1F41A ' && echo  php shell \
 	&& docker exec -it $(PHP) sh
+php.root.sh:
+	@printf '\U1F41A ' && echo  php shell \
+	&& docker exec -it --user root $(PHP) sh
 db.sh:
 	@printf '\U1F41A ' && echo  db shell \
 	&& docker exec -it $(shell docker-compose ps -q db) sh

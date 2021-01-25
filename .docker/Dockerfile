@@ -28,7 +28,7 @@ fi
 RUN apk del -f .build-deps && rm -rf /tmp/* /var/cache/apk/*
 
 # Add user
-RUN adduser --disabled-password --gecos '' -u $USER_ID -G www-data cakephp
+RUN adduser --disabled-password --gecos '' -u $USER_ID --ingroup www-data cakephp
 USER cakephp
 
 COPY . .
