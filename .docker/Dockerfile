@@ -20,7 +20,6 @@ ENV TERM=linux
 RUN apk add libzip icu
 RUN apk add --no-cache --virtual .build-deps curl-dev libxml2-dev icu-dev libedit-dev libzip-dev
 RUN docker-php-ext-install intl pdo pdo_mysql curl json opcache readline xml zip
-RUN rm -rf app/vendor logs/* tmp/*
 
 # Dev dependencies
 RUN if [[ "$ENVIRONMENT" != "prod" ]]; then \
@@ -32,9 +31,10 @@ fi
 
 # Cleanup
 RUN apk del -f .build-deps && rm -rf /tmp/* /var/cache/apk/*
+RUN rm -rf app/vendor logs/* tmp/*
 
 # Add user
-RUN adduser --disabled-password --gecos '' --uid $USER_ID -G www-data cakephp
+RUN adduser --disabled-password --gecos '' -u $USER_ID -G www-data cakephp
 USER cakephp
 
 COPY . .

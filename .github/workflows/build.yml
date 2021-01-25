@@ -16,7 +16,7 @@ jobs:
       - name: Pull images
         run: docker-compose pull
       - name: Start services
-        run: docker-compose up --build -d
+        run: docker-compose up --build --build-arg USER_ID=777 -d
       - name: Wait for services
         run: sleep 5
       - name: Composer Install
