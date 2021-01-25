@@ -15,8 +15,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Pull images
         run: docker-compose pull
-      - name: Start services
-        run: docker-compose up --build --build-arg USER_ID=777 -d
+      - name: Build
+        run: docker-compose build --build-arg USER_ID=777
+      - name: Start
+        run: docker-compose up -d
       - name: Wait for services
         run: sleep 5
       - name: Composer Install
