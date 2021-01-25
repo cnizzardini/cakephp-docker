@@ -1,9 +1,4 @@
 #
-# Composer
-#
-FROM composer:2 AS composer
-
-#
 # PHP
 #
 FROM php:7.4-fpm-alpine
@@ -37,4 +32,4 @@ RUN adduser --disabled-password --gecos '' -u $USER_ID -G www-data cakephp
 USER cakephp
 
 COPY . .
-COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
