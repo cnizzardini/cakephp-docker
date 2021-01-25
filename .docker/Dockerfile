@@ -9,19 +9,20 @@ FROM composer:2 AS composer
 FROM php:7.4-fpm-alpine
 
 ARG ENVIRONMENT
+ARG USER_ID
 
 WORKDIR /var/www/app
 
 # Fixes some weird terminal issues such as broken clear / CTRL+L
 ENV TERM=linux
 
-# Required packages
+# Core dependencies
 RUN apk add libzip icu
 RUN apk add --no-cache --virtual .build-deps curl-dev libxml2-dev icu-dev libedit-dev libzip-dev
 RUN docker-php-ext-install intl pdo pdo_mysql curl json opcache readline xml zip
 RUN rm -rf app/vendor logs/* tmp/*
 
-# dev
+# Dev dependencies
 RUN if [[ "$ENVIRONMENT" != "prod" ]]; then \
     apk add --no-cache --virtual .php-deps git file re2c autoconf make zlib zlib-dev g++ \
     && pecl install xdebug \
@@ -31,6 +32,10 @@ fi
 
 # Cleanup
 RUN apk del -f .build-deps && rm -rf /tmp/* /var/cache/apk/*
+
+# Add user
+RUN adduser --disabled-password --gecos '' --uid $USER_ID -G www-data cakephp
+USER cakephp
 
 COPY . .
 COPY --from=composer /usr/bin/composer /usr/bin/composer

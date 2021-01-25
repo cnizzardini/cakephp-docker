@@ -4,6 +4,7 @@ SHELL=/bin/bash
 # project vars
 #
 IMAGE_NAME      := "docker-cakephp"
+APP_NAME        := "App"
 
 #
 # define standard colors
@@ -33,16 +34,17 @@ endif
 #
 # vars
 #
-SALT    := $(shell cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-PHP     := $(shell docker-compose ps -q php)
+SALT            := $(shell cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+PHP             := $(shell docker-compose ps -q php)
+USER_ID         := $(shell id -u)
 
 init:
 	cp .docker/php/php.ini.development .docker/php/php.ini \
 	&& cp .docker/php/conf.d/20-overrides.ini.development .docker/php/conf.d/20-overrides.ini \
 	&& cp app/config/.env.example app/config/.env \
-	&& sed -i '/export APP_NAME/c\export APP_NAME="APP"' app/config/.env \
+	&& sed -i '/export APP_NAME/c\export APP_NAME="$(APP_NAME)"' app/config/.env \
 	&& sed -i '/export SECURITY_SALT/c\export SECURITY_SALT="$(SALT)"' app/config/.env \
-	&& docker-compose build \
+	&& docker-compose build --build-arg USER_ID=$(USER_ID) \
 	&& docker-compose up -d
 
 #
@@ -94,13 +96,6 @@ web.sh:
 #
 # xdebug
 #
-xdebug.off:
-	@docker container pause $(PHP) > /dev/null \
-	&& cd .docker/php/conf.d \
-	&& sed -i '/xdebug.mode/c\xdebug.mode=off' 20-overrides.ini \
-	&& docker container unpause $(PHP) > /dev/null \
-	&& docker container restart $(PHP) > /dev/null \
-	&& printf '\U1F515' && echo ${YELLOW} Xdebug Off
 xdebug.on:
 	@docker container pause $(PHP) > /dev/null \
 	&& cd .docker/php/conf.d \
@@ -108,3 +103,10 @@ xdebug.on:
 	&& docker container unpause $(PHP) > /dev/null \
 	&& docker container restart $(PHP) > /dev/null \
 	&& printf '\U1F41E' && echo ${GREEN} Xdebug On
+xdebug.off:
+	@docker container pause $(PHP) > /dev/null \
+	&& cd .docker/php/conf.d \
+	&& sed -i '/xdebug.mode/c\xdebug.mode=off' 20-overrides.ini \
+	&& docker container unpause $(PHP) > /dev/null \
+	&& docker container restart $(PHP) > /dev/null \
+	&& printf '\U1F515' && echo ${YELLOW} Xdebug Off
