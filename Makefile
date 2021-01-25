@@ -5,6 +5,7 @@ SHELL=/bin/bash
 #
 IMAGE_NAME      := "docker-cakephp"
 APP_NAME        := "App"
+USERNAME        := "cakephp"
 
 #
 # define standard colors
@@ -44,7 +45,7 @@ init:
 	&& cp app/config/.env.example app/config/.env \
 	&& sed -i '/export APP_NAME/c\export APP_NAME="$(APP_NAME)"' app/config/.env \
 	&& sed -i '/export SECURITY_SALT/c\export SECURITY_SALT="$(SALT)"' app/config/.env \
-	&& docker-compose build --build-arg USER_ID=$(USER_ID) \
+	&& docker-compose build --build-arg USER_ID=$(USER_ID) --build-arg USERNAME=$(USERNAME) \
 	&& docker-compose up -d
 
 #

@@ -5,6 +5,7 @@ FROM php:7.4-fpm-alpine
 
 ARG ENVIRONMENT
 ARG USER_ID
+ARG USERNAME
 
 WORKDIR /var/www/app
 
@@ -28,8 +29,11 @@ fi
 RUN apk del -f .build-deps && rm -rf /tmp/* /var/cache/apk/*
 
 # Add user
-RUN adduser --disabled-password --gecos '' -u $USER_ID --ingroup www-data cakephp
-USER cakephp
+RUN if [[ "$USERNAME" != "root" ]]; then \
+    adduser --disabled-password --gecos '' -u $USER_ID --ingroup www-data cakephp; \
+fi
+
+USER $USERNAME
 
 COPY . .
 COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
