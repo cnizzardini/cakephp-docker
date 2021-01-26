@@ -6,6 +6,7 @@ SHELL=/bin/bash
 IMAGE_NAME      := docker-cakephp
 APP_NAME        := App
 USERNAME        := cakephp
+APP_DIR         := app
 
 #
 # define standard colors
@@ -42,9 +43,9 @@ USER_ID         := $(shell id -u)
 init:
 	cp .docker/php/php.ini.development .docker/php/php.ini \
 	&& cp .docker/php/conf.d/20-overrides.ini.development .docker/php/conf.d/20-overrides.ini \
-	&& cp app/config/.env.example app/config/.env \
-	&& sed -i '/export APP_NAME/c\export APP_NAME="$(APP_NAME)"' app/config/.env \
-	&& sed -i '/export SECURITY_SALT/c\export SECURITY_SALT="$(SALT)"' app/config/.env \
+	&& cp $(APP_DIR)/config/.env.example $(APP_DIR)/config/.env \
+	&& sed -i '/export APP_NAME/c\export APP_NAME="$(APP_NAME)"' $(APP_DIR)/config/.env \
+	&& sed -i '/export SECURITY_SALT/c\export SECURITY_SALT="$(SALT)"' $(APP_DIR)/config/.env \
 	&& docker-compose build --build-arg USER_ID=$(USER_ID) --build-arg USERNAME=$(USERNAME) \
 	&& docker-compose up -d
 
