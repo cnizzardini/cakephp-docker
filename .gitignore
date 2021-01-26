@@ -38,4 +38,3 @@ nbproject/*
 ######################
 .docker/php/conf.d/*.ini
 .docker/php/*.ini
-.env

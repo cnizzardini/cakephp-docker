@@ -16,9 +16,7 @@ jobs:
       - name: Pull images
         run: docker-compose pull
       - name: Build
-        run: |
-          cp .env.example .env
-          docker-compose build --build-arg USER_ID=$(shell id -u) --build-arg USERNAME=root
+        run: docker-compose build --build-arg USER_ID=$(shell id -u) --build-arg USERNAME=root
       - name: Start
         run: docker-compose up -d
       - name: Wait for services

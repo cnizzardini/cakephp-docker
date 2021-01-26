@@ -3,9 +3,9 @@ SHELL=/bin/bash
 #
 # project vars
 #
-IMAGE_NAME      := "docker-cakephp"
-APP_NAME        := "App"
-USERNAME        := "cakephp"
+IMAGE_NAME      := docker-cakephp
+APP_NAME        := App
+USERNAME        := cakephp
 
 #
 # define standard colors
@@ -40,8 +40,7 @@ PHP             := $(shell docker-compose ps -q php)
 USER_ID         := $(shell id -u)
 
 init:
-	cp .env.example .env \
-	&& cp .docker/php/php.ini.development .docker/php/php.ini \
+	cp .docker/php/php.ini.development .docker/php/php.ini \
 	&& cp .docker/php/conf.d/20-overrides.ini.development .docker/php/conf.d/20-overrides.ini \
 	&& cp app/config/.env.example app/config/.env \
 	&& sed -i '/export APP_NAME/c\export APP_NAME="$(APP_NAME)"' app/config/.env \
