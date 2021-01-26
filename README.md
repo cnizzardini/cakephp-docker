@@ -31,6 +31,8 @@ make composer.install
 After install browse to [http://localhost:8080](http://localhost:8080) to see the CakePHP welcome page. You may 
 run `make up`, `make down`, `make stop`, and `make restart` instead of the `docker-compose` equivalents.
 
+See `.env` for additional `docker-compose.yml` settings.
+
 ### PHP 
 
 To access your application's bash shell:
@@ -39,9 +41,9 @@ To access your application's bash shell:
 make php.sh
 ```
 
-See `.docker/php` for PHP INI settings. During `make init` the `php.ini.development` is copied to`php.ini`. The former 
-is then mounted as a volume in the php container. The `20-overrides.ini.development` is used for turning xdebug on 
-and off (see below) and is copy/mounted like `php.ini`.
+See `.docker/php` for PHP INI settings. During `make init` the `php.ini.development` is copied to `php.ini`. The
+former is then mounted as a volume in the php container. The `20-overrides.ini.development` is used for turning
+xdebug on and off (see below) and is copy/mounted like `php.ini`.
 
 ### MySQL
 
@@ -57,21 +59,16 @@ See [docker-compose.yml](docker-compose.yml) for accounts and passwords. See `ap
 
 ### XDebug
 
-Xdebug is disabled by default. Both these commands handle modifying the `xdebug.ini` config and restarting the container.
-
-To enable: 
+Xdebug is disabled by default. The following commands modify your php config and restart the container.
 
 ```console
 make xdebug.on
-```
-
-To disable:
-
-```console
 make xdebug.off
 ```
 
-### PHPStorm + XDebug
+### PHPStorm + Xdebug
+
+Xdebug 3's default port is `9003`.
 
 Go to `File > Settings > Languages & Frameworks > PHP > Servers`
 

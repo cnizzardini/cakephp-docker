@@ -1,8 +1,3 @@
-# project files     #
-######################
-.docker/php/conf.d/*.ini
-.docker/php/*.ini
-
 # OS generated files #
 ######################
 .DS_Store
@@ -38,3 +33,9 @@ nbproject/*
 .vscode
 # Sass preprocessor
 .sass-cache/
+
+# project files     #
+######################
+.docker/php/conf.d/*.ini
+.docker/php/*.ini
+.env

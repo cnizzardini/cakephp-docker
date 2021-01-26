@@ -18,10 +18,10 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: cakephp
-      MYSQL_USER: cakephp
-      MYSQL_PASSWORD: cakephp
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:?Missing MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:?Missing MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER:?Missing MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:?Missing MYSQL_PASSWORD}
     volumes:
       - data:/var/lib/mysql
     ports:
