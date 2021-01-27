@@ -26,38 +26,80 @@ make init
 make composer.install
 ```
 
+<details><summary>Show manual steps</summary>
+  <p>
+```console
+```
+</p>
+</details>
+
+
+#### Potential Issues
+
+> **OSX users**
+> 
+> If you are using the make commands you will need `gnu-sed`, so `brew install gun-sed` and update the Makefile to 
+> use `gsed` or you can update your system to use `gsed` permanently: 
+> `export PATH="/usr/local/opt/gnu-sed/libex/gnubin:$PATH"`
+
 ## Usage
 
-After install browse to [http://localhost:8080](http://localhost:8080) to see the CakePHP welcome page. You may 
-run `make up`, `make down`, `make stop`, and `make restart` instead of the `docker-compose` equivalents.
+After install browse to [http://localhost:8080](http://localhost:8080) to see the CakePHP welcome page. 
 
-### PHP 
-
-To access your application's bash shell:
+All containers may be accessed via the following `docker exec` commands:
 
 ```console
-make php.sh
+docker exec -it <CONTAINER_NAME> sh
+docker exec -it $(docker-compose ps -q php) sh
+docker exec -it $(docker-compose ps -q db) sh
+docker exec -it $(docker-compose ps -q web) sh
 ```
 
-See `.docker/php` for PHP INI settings. During `make init` the `php.ini.development` is copied to `php.ini`. The
-former is then mounted as a volume in the php container. The `20-overrides.ini.development` is used for turning
-xdebug on and off (see below) and is copy/mounted like `php.ini`.
+Makefile target commands are provided beyond this point. You may run `make up` and `make stop` instead of the 
+`docker-compose` equivalents.
+
+On container restarts `.docker/*.env.development` is copied to `.docker/*.env`. These env vars may be used in 
+`.docker/php/php.ini` for instance.
+
+### PHP
+
+See `.docker/php` for PHP INI settings. 
+
+Shell:
+
+```
+make php.sh
+make php.root.sh
+```
+
+Helper commands:
+
+```
+make composer.install
+make composer.test
+make composer.check
+```
 
 ### MySQL
 
-Login via the mysql client (requires mysql client on your localhost):
+See [docker-compose.yml](docker-compose.yml) for accounts and passwords. See `.docker/mysql.env.development` for
+changing host, user, db, and password.
+
+Shell:
+
+```console
+make db.sh
+```
+
+MySQL shell (requires mysql client on your localhost):
 
 ```console
 make db.mysql
 ```
 
-To access the shell `make db.sh`
-
-See [docker-compose.yml](docker-compose.yml) for accounts and passwords. See `app/config/.env` for DSN settings.
-
 ### XDebug
 
-Xdebug is disabled by default. The following commands modify your php config and restart the container.
+Xdebug is disabled by default. To toggle:
 
 ```console
 make xdebug.on
@@ -77,17 +119,3 @@ Go to `File > Settings > Languages & Frameworks > PHP > Servers`
 - Use path mappings: `Enable`
 
 Map your projects app directory to the absolute path on the docker container `/var/www/app`
-
-### Docker Builds
-
-Production: 
-
-```console
-make build.prod
-```
-
-Development:
-
-```console
-make build.dev
-```

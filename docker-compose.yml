@@ -4,8 +4,8 @@ services:
   php:
     build:
       context: .docker/
-    environment:
-      PHP_IDE_CONFIG: 'serverName=localhost'
+    env_file:
+      - .docker/php.env
     volumes:
       - ./app/:/var/www/app
       - ./.docker/php/php.ini:/usr/local/etc/php/php.ini
@@ -17,11 +17,8 @@ services:
     image: library/mysql:8
     command: --default-authentication-plugin=mysql_native_password
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: cakephp
-      MYSQL_USER: cakephp
-      MYSQL_PASSWORD: cakephp
+    env_file:
+      - .docker/mysql.env
     volumes:
       - data:/var/lib/mysql
     ports:

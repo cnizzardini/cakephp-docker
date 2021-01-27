@@ -8,10 +8,6 @@
 **/.gitattributes
 **/.gitignore
 **/.gitmodules
-**/docker-compose.*.yaml
-**/docker-compose.*.yml
-**/docker-compose.yaml
-**/docker-compose.yml
 **/Dockerfile
 **/Thumbs.db
 **/app/tmp/
