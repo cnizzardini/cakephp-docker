@@ -26,21 +26,12 @@ make init
 make composer.install
 ```
 
-<details><summary>Show manual steps</summary>
-  <p>
-```console
-```
-</p>
-</details>
+If you prefer to do this manually, view the Makefile to see the shell commands being run.
 
-
-#### Potential Issues
-
-> **OSX users**
-> 
-> If you are using the make commands you will need `gnu-sed`, so `brew install gun-sed` and update the Makefile to 
-> use `gsed` or you can update your system to use `gsed` permanently: 
-> `export PATH="/usr/local/opt/gnu-sed/libex/gnubin:$PATH"`
+#### Mac OSX Users
+If you are using the make commands you will need `gnu-sed`, so `brew install gun-sed` and update the Makefile to
+use `gsed` or you can update your system to use `gsed` permanently:
+`export PATH="/usr/local/opt/gnu-sed/libex/gnubin:$PATH"`
 
 ## Usage
 
@@ -55,8 +46,8 @@ docker exec -it $(docker-compose ps -q db) sh
 docker exec -it $(docker-compose ps -q web) sh
 ```
 
-Makefile target commands are provided beyond this point. You may run `make up` and `make stop` instead of the 
-`docker-compose` equivalents.
+Makefile target commands are provided beyond this point. You may run `make up`, `make stop`, and `make restart` instead 
+of the `docker-compose` equivalents.
 
 On container restarts `.docker/*.env.development` is copied to `.docker/*.env`. These env vars may be used in 
 `.docker/php/php.ini` for instance.

@@ -66,6 +66,9 @@ up: do.copy
 stop:
 	@printf '\U1F40B ' && echo stop
 	@docker-compose stop
+restart: stop
+	@printf '\U1F40B ' && echo up
+	@docker-compose up -d
 build.prod:
 	@docker build --build-arg ENVIRONMENT=prod -t $(IMAGE_NAME) .docker/
 build.dev:
