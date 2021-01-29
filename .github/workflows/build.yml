@@ -13,12 +13,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Pull images
-        run: docker-compose pull
       - name: Env Files
         run: |
           cp .docker/php.env.development php.env
           cp .docker/mysql.env.development mysql.env
+      - name: Pull images
+        run: docker-compose pull
       - name: Build
         run: docker-compose build --build-arg USER_ID=$(shell id -u) --build-arg USERNAME=root
       - name: Start
