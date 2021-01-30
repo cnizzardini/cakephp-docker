@@ -40,6 +40,9 @@ SALT            := $(shell cat /dev/urandom | LC_CTYPE=C tr -dc 'a-zA-Z0-9' | fo
 PHP             := $(shell docker-compose ps -q php)
 USER_ID         := $(shell id -u)
 
+#
+# install command
+#
 init: do.copy
 	@cp $(APP_DIR)/config/.env.example $(APP_DIR)/config/.env
 	@sed -i '/export APP_NAME/c\export APP_NAME="$(APP_NAME)"' $(APP_DIR)/config/.env
