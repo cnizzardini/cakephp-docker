@@ -15,8 +15,6 @@ A simple [cakephp/app 4.2](https://github.com/cakephp/app/releases/tag/4.2.1) do
 | NGINX 1.19                | localhost:8080    | web           |
 | MySQL 8                   | localhost:3607    | db            |
 
-A [Makefile](Makefile) is provided with some optional commands for your convenience.
-
 ## Installation
 
 Fork and clone this repository then run:
@@ -35,22 +33,27 @@ use `gsed` or you can update your system to use `gsed` permanently:
 
 ## Usage
 
-After install browse to [http://localhost:8080](http://localhost:8080) to see the CakePHP welcome page. 
+After install browse to [http://localhost:8080](http://localhost:8080) to see the CakePHP welcome page.
 
-All containers may be accessed via the following `docker exec` commands:
-
-```console
-docker exec -it <CONTAINER_NAME> sh
-docker exec -it $(docker-compose ps -q php) sh
-docker exec -it $(docker-compose ps -q db) sh
-docker exec -it $(docker-compose ps -q web) sh
-```
-
-Makefile target commands are provided beyond this point. You may run `make up`, `make stop`, and `make restart` instead 
-of the `docker-compose` equivalents.
-
-On container restarts `.docker/*.env.development` is copied to `.docker/*.env`. These env vars may be used in 
+On container restarts `.docker/*.env.development` is copied to `.docker/*.env`. These env vars may be used in
 `.docker/php/php.ini` for instance.
+
+A [Makefile](Makefile) is provided with some optional commands for your convenience.
+
+| Make Command              | Description       |
+| -----------               | -----------       |
+| `make up`                 | `docker-compose up -d` |
+| `make stop`               | `docker-compose stop` |
+| `make restart`            | `docker-compose restart` |
+| `make php.sh`             | `$(docker-compose ps -q php) sh` |
+| `make db.sh`              | `$(docker-compose ps -q db) sh` |
+| `make db.mysql`           | `mysql -u root -h 0.0.0.0 -p --port 3307` |
+| `make web.sh`             | `$(docker-compose ps -q web) sh` |
+| `make xdebug.on`          | Restarts PHP container with xdebug.mode set to debug,coverage |
+| `make xdebug.off`         | Restarts PHP container with xdebug.mode set to off |
+| `make composer.install`   | `docker exec $(PHP) composer install --no-interaction` |
+| `make composer.test`      | `docker exec $(PHP) composer test` |
+| `make composer.check`     | `docker exec $(PHP) composer check` |
 
 ### PHP
 
@@ -60,7 +63,6 @@ Shell:
 
 ```console
 make php.sh
-make php.root.sh
 ```
 
 Helper commands:
