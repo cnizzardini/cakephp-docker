@@ -58,14 +58,14 @@ See `.docker/php` for PHP INI settings.
 
 Shell:
 
-```
+```console
 make php.sh
 make php.root.sh
 ```
 
 Helper commands:
 
-```
+```console
 make composer.install
 make composer.test
 make composer.check
