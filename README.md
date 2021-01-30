@@ -45,15 +45,16 @@ A [Makefile](Makefile) is provided with some optional commands for your convenie
 | `make up`                 | `docker-compose up -d` |
 | `make stop`               | `docker-compose stop` |
 | `make restart`            | `docker-compose restart` |
-| `make php.sh`             | `$(docker-compose ps -q php) sh` |
-| `make db.sh`              | `$(docker-compose ps -q db) sh` |
+| `make php.sh`             | Log in as default user (cakephp) `docker exec -it <PHP_CONTAINER> sh` |
+| `make php.root.sh`         | Log in as root `docker exec -it --user root <PHP_CONTAINER> sh` |
+| `make db.sh`             | `docker exec -it <DB_CONTAINER> sh` |
 | `make db.mysql`           | `mysql -u root -h 0.0.0.0 -p --port 3307` |
-| `make web.sh`             | `$(docker-compose ps -q web) sh` |
+| `make web.sh`             | `docker exec -it <WEB_CONTAINER> sh` |
 | `make xdebug.on`          | Restarts PHP container with xdebug.mode set to debug,coverage |
 | `make xdebug.off`         | Restarts PHP container with xdebug.mode set to off |
-| `make composer.install`   | `docker exec $(PHP) composer install --no-interaction` |
-| `make composer.test`      | `docker exec $(PHP) composer test` |
-| `make composer.check`     | `docker exec $(PHP) composer check` |
+| `make composer.install`   | `docker exec <PHP_CONTAINER> composer install --no-interaction` |
+| `make composer.test`      | `docker exec <PHP_CONTAINER> composer test` |
+| `make composer.check`     | `docker exec <PHP_CONTAINER> composer check` |
 
 ### PHP
 

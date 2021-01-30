@@ -56,9 +56,9 @@ init: do.copy
 composer.install:
 	@docker exec $(PHP) composer install --no-interaction
 composer.test:
-	@docker exec -it $(PHP) composer test
+	@docker exec $(PHP) composer test
 composer.check:
-	@docker exec -it $(PHP) composer check
+	@docker exec $(PHP) composer check
 
 #
 # docker & docker-compose commands
