@@ -15,8 +15,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Env Files
         run: |
-          cp .docker/php.env.development php.env
-          cp .docker/mysql.env.development mysql.env
+          cp .docker/php.env.development .docker/php.env
+          cp .docker/mysql.env.development .docker/mysql.env
       - name: Pull images
         run: docker-compose pull
       - name: Build
