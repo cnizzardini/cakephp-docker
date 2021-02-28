@@ -14,7 +14,7 @@ jobs:
           cp .docker/php.env.development .docker/php.env
           cp .docker/mysql.env.development .docker/mysql.env
       - name: Pull images
-        run: docker-compose pull
+        run: docker-compose -f .docker/docker-compose.yml pull
       - name: Build
         run: docker-compose -f .docker/docker-compose.yml build --build-arg USER_ID=$(id) --build-arg USERNAME=cakephp --build-arg APP_DIR=app
       - name: Start
