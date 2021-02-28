@@ -8,6 +8,8 @@ ARG USER_ID
 ARG USERNAME
 ARG APP_DIR
 
+WORKDIR /var/www/$APP_DIR
+
 ENV TERM=linux
 
 #
@@ -21,25 +23,6 @@ RUN if [[ "$ENVIRONMENT" != "prod" ]]; then \
     && apk del -f .php-deps; \
 fi
 
-WORKDIR /var/www/$APP_DIR
-
-#
-# Composer install
-#
-COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
-ENV COMPOSER_ALLOW_SUPERUSER=1
-COPY $APP_DIR/composer.json ./
-COPY $APP_DIR/composer.lock ./
-
-RUN if [[ "$ENVIRONMENT" != "prod" ]]; then \
-    composer install --no-interaction --no-plugins --no-scripts --prefer-dist; else \
-    composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-dev; \
-fi
-
-RUN composer clear-cache
-RUN composer dump-autoload
-COPY . .
-
 #
 # Add user
 #
@@ -48,3 +31,6 @@ RUN if [[ "$USERNAME" != "root" ]]; then \
 fi
 
 USER $USERNAME
+
+COPY . .
+COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer

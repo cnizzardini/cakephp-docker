@@ -22,6 +22,7 @@ Fork and clone this repository then run:
 
 ```console
 make init
+make composer.install
 ```
 
 If you prefer to do this manually, view the [Makefile](Makefile) to see the shell commands being run.
