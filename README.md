@@ -7,7 +7,8 @@
 [![NGINX](https://img.shields.io/badge/nginx-1.19-009639.svg?logo=nginx)](https://www.nginx.com/)
 [![MySQL](https://img.shields.io/badge/mysql-8-00758F.svg?logo=mysql)](https://www.mysql.com/)
 
-A simple [cakephp/app 4.2](https://github.com/cakephp/app/releases/tag/4.2.1) docker setup.
+A simple [cakephp/app 4.2](https://github.com/cakephp/app/releases/tag/4.2.1) template for Docker Compose and 
+Kubernetes via helm charts.
 
 | Service                   | Host:Port         | Docker Host   |
 | -----------               | -----------       | -----------   |
@@ -21,15 +22,18 @@ Fork and clone this repository then run:
 
 ```console
 make init
-make composer.install
 ```
 
-If you prefer to do this manually, view the Makefile to see the shell commands being run.
+If you prefer to do this manually, view the [Makefile](Makefile) to see the shell commands being run.
 
 #### Mac OSX Users
-If you are using the make commands you will need `gnu-sed`, so `brew install gun-sed` and update the Makefile to
+If you are using the make commands you will need `gnu-sed`, so `brew install gnu-sed` and update the Makefile to
 use `gsed` or you can update your system to use `gsed` permanently:
 `export PATH="/usr/local/opt/gnu-sed/libex/gnubin:$PATH"`
+
+## Layout
+
+@todo
 
 ## Usage
 
@@ -46,8 +50,9 @@ A [Makefile](Makefile) is provided with some optional commands for your convenie
 | `make stop`               | `docker-compose stop` |
 | `make restart`            | `docker-compose restart` |
 | `make php.sh`             | Log in as default user (cakephp) `docker exec -it <PHP_CONTAINER> sh` |
-| `make php.root.sh`         | Log in as root `docker exec -it --user root <PHP_CONTAINER> sh` |
-| `make db.sh`             | `docker exec -it <DB_CONTAINER> sh` |
+| `make php.root.sh`        | Log in as root `docker exec -it --user root <PHP_CONTAINER> sh` |
+| `make php.restart`        | Restarts the PHP container |
+| `make db.sh`              | `docker exec -it <DB_CONTAINER> sh` |
 | `make db.mysql`           | `mysql -u root -h 0.0.0.0 -p --port 3307` |
 | `make web.sh`             | `docker exec -it <WEB_CONTAINER> sh` |
 | `make xdebug.on`          | Restarts PHP container with xdebug.mode set to debug,coverage |
@@ -76,8 +81,8 @@ make composer.check
 
 ### MySQL
 
-See [docker-compose.yml](docker-compose.yml) for accounts and passwords. See `.docker/mysql.env.development` for
-changing host, user, db, and password.
+See [docker-compose.yml](.docker/docker-compose.yml) for accounts and passwords. See `.docker/mysql.env.development` 
+for changing host, user, db, and password.
 
 Shell:
 

@@ -1,10 +1,6 @@
 name: Build
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [pull_request]
 
 jobs:
   build:
@@ -20,16 +16,14 @@ jobs:
       - name: Pull images
         run: docker-compose pull
       - name: Build
-        run: docker-compose build --build-arg USER_ID=$(shell id -u) --build-arg USERNAME=root
+        run: docker-compose -f .docker/docker-compose.yml build --build-arg USER_ID=$(id) --build-arg USERNAME=cakephp --build-arg APP_DIR=app
       - name: Start
-        run: docker-compose up -d
+        run: docker-compose -f .docker/docker-compose.yml
       - name: Wait for services
         run: sleep 5
-      - name: Composer Install
-        run: docker exec $(docker-compose ps -q php) composer install --no-interaction
       - name: HTTP Check
         run: curl -v -o /dev/null http://localhost:8080
       - name: MySQL Check
         run: mysql -u root -h 0.0.0.0 -proot --port 3307 -e "status"
       - name: Composer Test
-        run: docker exec $(docker-compose ps -q php) composer test
+        run: docker exec $(docker-compose -f .docker/docker-compose.yml ps -q php) composer test

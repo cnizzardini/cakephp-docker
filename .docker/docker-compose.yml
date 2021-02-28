@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  php:
+    build:
+      context: ../
+      dockerfile: .docker/Dockerfile
+    env_file:
+      - php.env
+    environment:
+      PHP_IDE_CONFIG: "serverName=localhost"
+    volumes:
+      - ../app/:/var/www/app
+      - ./php:/usr/local/etc/php
+      - ~/.ssh/:/home/${USERNAME}/.ssh
+    depends_on:
+      - db
+
+  db:
+    image: library/mysql:8
+    command: mysqld --sql_mode="" --default-authentication-plugin=mysql_native_password
+    restart: always
+    env_file:
+      - mysql.env
+    volumes:
+      - data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+  web:
+    image: nginx:1.19-alpine
+    volumes:
+      - ../app/webroot:/var/www/app/webroot
+      - ./nginx:/etc/nginx/conf.d
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+volumes:
+  data:

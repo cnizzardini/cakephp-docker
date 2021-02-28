@@ -1,0 +1,48 @@
+name: Image
+
+on:
+  create:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Prepare
+        id: prep
+        run: |
+          DOCKER_IMAGE=cnizzardini/cakephp-docker
+          VERSION=edge
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          fi
+          TAGS="${DOCKER_IMAGE}:${VERSION}"
+          if [[ $VERSION =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+            TAGS="$TAGS,${DOCKER_IMAGE}:4.2-latest"
+          fi
+          echo ::set-output name=tags::${TAGS}
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      -
+        name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.prep.outputs.tags }}
+          build-args: USER_ID=$(id) --build-arg USERNAME=cakephp --build-arg APP_DIR=app
+      -
+        name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
