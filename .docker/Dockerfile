@@ -32,8 +32,8 @@ COPY $APP_DIR/composer.json ./
 COPY $APP_DIR/composer.lock ./
 
 RUN if [[ "$ENVIRONMENT" != "prod" ]]; then \
-    composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-dev; else \
-    composer install --no-interaction --no-plugins --no-scripts --prefer-dist; \
+    composer install --no-interaction --no-plugins --no-scripts --prefer-dist; else \
+    composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-dev; \
 fi
 
 RUN composer clear-cache
