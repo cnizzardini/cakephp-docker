@@ -16,7 +16,7 @@ jobs:
       - name: Pull images
         run: docker-compose -f .docker/docker-compose.yml pull
       - name: Build
-        run: docker-compose -f .docker/docker-compose.yml build --build-arg ENVIRONMENT=dev --build-arg USER_ID=$(id) --build-arg USERNAME=cakephp --build-arg APP_DIR=app
+        run: docker-compose -f .docker/docker-compose.yml build --build-arg USER_ID=$(id) --build-arg USERNAME=cakephp --build-arg APP_DIR=app
       - name: Start
         run: docker-compose -f .docker/docker-compose.yml
       - name: Wait for services
