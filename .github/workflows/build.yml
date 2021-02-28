@@ -18,7 +18,7 @@ jobs:
       - name: Build
         run: docker-compose -f .docker/docker-compose.yml build --build-arg USER_ID=$(id -u) --build-arg USERNAME=cakephp --build-arg APP_DIR=app
       - name: Start
-        run: docker-compose -f .docker/docker-compose.yml up
+        run: docker-compose -f .docker/docker-compose.yml up -d
       - name: Wait for services
         run: sleep 5
       - name: HTTP Check
