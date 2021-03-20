@@ -16,6 +16,13 @@ Kubernetes via helm charts.
 | NGINX 1.19                | localhost:8080    | web           |
 | MySQL 8                   | localhost:3607    | db            |
 
+- [Installation](#installation)
+- [Usage](#usage)
+  - [PHP](#php)
+  - [MySQL](#mysql)
+  - [NGINX](#nginx)
+  - [XDebug](#xdebug)
+
 ## Installation
 
 Fork and clone this repository then run:
@@ -25,10 +32,6 @@ make init
 ```
 
 If you prefer to do this manually, view the [Makefile](Makefile) to see the shell commands being run.
-
-## Layout
-
-@todo
 
 ## Usage
 
@@ -62,7 +65,7 @@ these commands are not exact aliases of docker-compose commands.
 
 ### PHP
 
-See [.docker/php](.docker/php) for PHP INI settings. 
+See [.docker/php](.docker/php) for PHP INI settings and [.docker/](.docker/) directory for `php.env.*` settings.
 
 Shell:
 
@@ -80,8 +83,7 @@ make composer.check
 
 ### MySQL
 
-See [.docker/docker-compose.yml](.docker/docker-compose.yml) for accounts and passwords. See 
-[.docker/mysql.env.development](.docker/mysql.env.development) for changing host, user, db, and password.
+See [.docker/](.docker/) directory for `mysql.env.*` for hostname, username, db, and password.
 
 Shell:
 
@@ -93,6 +95,16 @@ MySQL shell (requires mysql client on your localhost):
 
 ```console
 make db.mysql
+```
+
+### NGINX
+
+See [.docker/nginx](.docker/nginx) directory for conf file.
+
+Shell:
+
+```console
+make web.sh
 ```
 
 ### XDebug
