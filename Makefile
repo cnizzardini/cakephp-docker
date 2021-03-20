@@ -1,6 +1,5 @@
 SHELL=/bin/bash
-#include .env
-#export $(shell sed 's/=.*//' .env)
+.DEFAULT_GOAL   := help
 
 #
 # define standard colors
@@ -38,54 +37,104 @@ GID             := $(shell id -g)
 #
 # unicode icons
 #
-DOCKER_ICO      := '\U1F40B '
-SHELL_ICO       := '\U1F41A '
-MYSQL_ICO       := '\U1F42C '
-XDEBUG_ICO      := '\U1F41E '
-CANCEL_ICO      := '\U1F515 '
-KUBE_ICO        := '\U2699 '
+CAKEPHP_ICO     := ' \U1F370 '
+DOCKER_ICO      := ' \U1F40B '
+SHELL_ICO       := ' \U1F41A '
+MYSQL_ICO       := ' \U1F42C '
+XDEBUG_ICO      := ' \U1F41E '
+CANCEL_ICO      := ' \U1F515 '
+KUBE_ICO        := ' \U2699 '
+COMP_ICO        := ' \U1F3B5 '
 
+#
+# titles and separators
+#
+S               := \U203A
+E               := $(RESET)\n
+CMD             := \n   $(BLACK)
+GOOD            := $(GREEN)
+INFO            := $(BLUE)
+MEH             := $(YELLOW)
+
+#
+# cmds
+#
+DC_START        := docker-compose -f $(DOCKER_COMPOSE) start
+DC_STOP         := docker-compose -f $(DOCKER_COMPOSE) stop
+DC_UP           := docker-compose -f $(DOCKER_COMPOSE) up -d
+DC_DOWN         := docker-compose -f $(DOCKER_COMPOSE) down
+PHP_SH          := docker exec -it $(PHP) sh
+DB_SH           := docker exec -it $(shell docker-compose -f $(DOCKER_COMPOSE) ps -q db) sh
+MYSQL_SH        := mysql -u root -h 0.0.0.0 -p --port 3307
+WEB_SH          := docker exec -it $(shell docker-compose -f $(DOCKER_COMPOSE) ps -q web) sh
+COMP_INSTALL    := docker exec $(PHP) composer install --no-interaction --no-plugins --no-scripts --prefer-dist
+COMP_TEST       := docker exec $(PHP) composer test
+COMP_CHECK      := docker exec $(PHP) composer check
+
+#
+# help
+#
+help:
+	@printf "\n"
+	@printf $(CAKEPHP_ICO) && printf "$(RED) CakePHP Docker (unofficial) $(S)"
+	@printf "$(LIGHTPURPLE) https://github.com/cnizzardini/cakephp-docker $(E)\n"
+	@printf " command \t\t description $(E)"
+	@printf " ------- \t\t ----------- $(E)"
+	@printf "$(INFO) make init $(RESET)\t\t build and bring up containers $(E)"
+	@printf "$(INFO) make init.nocache $(RESET)\t build and bring up containers w/o cache $(E)"
+	@printf "\n"
+	@printf "$(INFO) make start $(RESET)\t\t start containers $(E)"
+	@printf "$(INFO) make stop $(RESET)\t\t stop containers $(E)"
+	@printf "$(INFO) make up $(RESET)\t\t bring up containers $(E)"
+	@printf "$(INFO) make down $(RESET)\t\t stop/remove containers $(E)"
+	@printf "$(INFO) make restart $(RESET)\t\t restart containers $(E)"
+	@printf "$(INFO) make php.restart $(RESET)\t restart php container $(E)"
+	@printf "\n"
+	@printf "$(INFO) make php.sh $(RESET)\t\t php container shell $(E)"
+	@printf "$(INFO) make db.sh $(RESET)\t\t db container shell $(E)"
+	@printf "$(INFO) make web.sh $(RESET)\t\t web container shell $(E)"
+	@printf "$(INFO) make db.mysql $(RESET)\t\t mysql console $(E)"
+	@printf "\n"
+	@printf "$(INFO) make xdebug.on $(RESET)\t enable xdebug $(E)"
+	@printf "$(INFO) make xdebug.off $(RESET)\t disable xdebug $(E)"
+	@printf "$(INFO) make composer.install $(RESET)\t install composer dependencies $(E)"
+	@printf "$(INFO) make composer.test $(RESET)\t run phpunit test suite $(E)"
+	@printf "$(INFO) make composer.check $(RESET)\t run phpunit and static analysis $(E)"
+	@printf "\n"
 #
 # install command
 #
 init: do.copy
+	@printf $(DOCKER_ICO) && printf "$(GOOD) running docker build and up -d $(E)"
+	@mkdir -p app && touch app/.gitkeep
 	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(UID) --build-arg ENV=dev
-	@docker-compose -f $(DOCKER_COMPOSE) up -d
+	@$(DC_UP)
 init.nocache: do.copy
+	@printf $(DOCKER_ICO) && printf "$(GOOD)running docker build --no-cache and up -d $(E)"
+	@mkdir -p app && touch app/.gitkeep
 	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(UID) --build-arg ENV=dev --no-cache
-	@docker-compose -f $(DOCKER_COMPOSE) up -d
-
-#
-# composer commands
-#
-composer.install:
-	@docker exec $(PHP) composer install --no-interaction --no-plugins --no-scripts --prefer-dist
-	@docker exec $(PHP) composer dump-autoload
-composer.test:
-	@docker exec $(PHP) composer test
-composer.check:
-	@docker exec $(PHP) composer check
+	@$(DC_UP)
 
 #
 # docker & docker-compose commands
 #
 start: do.copy
-	@printf $(DOCKER_ICO) && echo start
-	@docker-compose -f $(DOCKER_COMPOSE) start
+	@printf $(DOCKER_ICO) && printf "$(GOOD)start $(S) $(CMD) $(DC_START) $(E)"
+	@$(DC_START)
 stop:
-	@printf $(DOCKER_ICO) && echo stop
-	@docker-compose -f $(DOCKER_COMPOSE) stop
+	@printf $(DOCKER_ICO) && printf "$(MEH)stop $(S) $(CMD) $(DC_STOP) $(E)"
+	@$(DC_STOP)
 up: do.copy
-	@printf $(DOCKER_ICO) && echo up
-	@docker-compose -f $(DOCKER_COMPOSE) up -d
+	@printf $(DOCKER_ICO) && printf "$(GOOD)up $(S) $(CMD) $(DC_UP) $(E)"
+	@$(DC_UP)
 down:
-	@printf $(DOCKER_ICO) && echo down
-	@docker-compose -f $(DOCKER_COMPOSE) down
+	@printf $(DOCKER_ICO) && printf "$(MEH)down $(S) $(CMD) $(DC_DOWN) $(E)"
+	@$(DC_DOWN)
 restart: stop
-	@printf $(DOCKER_ICO) && echo start
-	@docker-compose -f $(DOCKER_COMPOSE) start
+	@printf $(DOCKER_ICO) && printf "$(GOOD)start $(S) $(CMD) $(DC_START) $(E)"
+	@$(DC_START)
 php.restart:
-	@printf $(DOCKER_ICO) && echo restart
+	@printf $(DOCKER_ICO) && printf "$(GOOD)restart $(E)"
 	@docker-compose -f $(DOCKER_COMPOSE) stop php
 	@cp .docker/php.env.development .docker/php.env
 	@docker-compose -f $(DOCKER_COMPOSE) start php
@@ -94,33 +143,47 @@ php.restart:
 # container shell commands
 #
 php.sh:
-	@printf $(SHELL_ICO) && echo  php shell
-	@docker exec -it $(PHP) sh
+	@printf $(SHELL_ICO) && printf "$(INFO)php $(S) $(CMD) $(PHP_SH) $(E)"
+	@$(PHP_SH)
 db.sh:
-	@printf $(SHELL_ICO) && echo  db shell
-	@docker exec -it $(shell docker-compose -f $(DOCKER_COMPOSE) ps -q db) sh
+	@printf $(SHELL_ICO) && printf "$(INFO)db $(S) $(CMD) $(DB_SH) $(E)"
+	@$(DB_SH)
 db.mysql:
-	@printf $(MYSQL_ICO) && echo  mysql shell
-	@mysql -u root -h 0.0.0.0 -p --port 3307
+	@printf $(MYSQL_ICO) && printf "$(INFO)mysql $(S) $(CMD) $(MYSQL_SH) $(E)"
+	@$(MYSQL_SH)
 web.sh:
-	@printf $(SHELL_ICO) && echo  web shell
-	@docker exec -it $(shell docker-compose -f $(DOCKER_COMPOSE) ps -q web) sh
+	@printf $(SHELL_ICO) && printf "$(INFO)web $(S) $(CMD) $(WEB_SH) $(E)"
+	@$(WEB_SH)
 
 #
 # xdebug
 #
 xdebug.on:
-	@docker container pause $(PHP) > /dev/null
+	@printf $(XDEBUG_ICO) && printf "$(INFO)start xdebug $(S)"
+	@docker container stop $(PHP) > /dev/null
 	@sed -i '/xdebug.mode/c\xdebug.mode=coverage,debug' .docker/php/conf.d/20-overrides.ini
-	@docker container unpause $(PHP) > /dev/null
-	@docker container restart $(PHP) > /dev/null
-	@printf $(XDEBUG_ICO) && echo ${GREEN} Xdebug On
+	@docker container start $(PHP) > /dev/null
+	@printf "$(GOOD) xdebug on $(E)"
 xdebug.off:
-	@docker container pause $(PHP) > /dev/null
+	@printf $(XDEBUG_ICO) && printf "$(INFO)stop xdebug $(S)"
+	@docker container stop $(PHP) > /dev/null
 	@sed -i '/xdebug.mode/c\xdebug.mode=off' .docker/php/conf.d/20-overrides.ini
-	@docker container unpause $(PHP) > /dev/null
-	@docker container restart $(PHP) > /dev/null
-	@printf $(CANCEL_ICO) && echo ${YELLOW} Xdebug Off
+	@docker container start $(PHP) > /dev/null
+	@printf "$(MEH) xdebug off $(E)"
+
+#
+# composer commands
+#
+composer.install:
+	@printf $(COMP_ICO) && printf "$(INFO)installing $(S) $(CMD) $(COMP_INSTALL) $(E)"
+	@$(COMP_INSTALL)
+	@docker exec $(PHP) composer dump-autoload
+composer.test:
+	@printf $(COMP_ICO) && printf "$(INFO)testing $(S) $(CMD) $(COMP_TEST) $(E)"
+	@$(COMP_TEST)
+composer.check:
+	@printf $(COMP_ICO) && printf "$(INFO)checking $(S) $(CMD) $(COMP_CHECK) $(E)"
+	@$(COMP_CHECK)
 
 #
 # internal

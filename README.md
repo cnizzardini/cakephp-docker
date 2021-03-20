@@ -1,4 +1,4 @@
-# CakePHP Docker
+# &#127856; CakePHP Docker
 
 [![Build](https://github.com/cnizzardini/cakephp-docker/workflows/Build/badge.svg?branch=master)](https://github.com/cnizzardini/cakephp-docker/actions)
 [![CakePHP](https://img.shields.io/badge/cakephp-4.2-red?logo=cakephp)](https://book.cakephp.org/4/en/index.html)
@@ -31,10 +31,10 @@ Fork and clone this repository then run:
 make init
 ```
 
-- Remove `app/*` from [.gitignore](.gitignore).
-- Enable `.env` loading in `config/bootstrap.php` so `config/.env` can be loaded.
+That's it! Now just remove `app/*` from [.gitignore](.gitignore).
 
-If you prefer to do this manually, view the [Makefile](Makefile) to see the shell commands being run.
+After install is complete it may take another few moments for permissions to be set and for the 
+[docker-entrypoint.sh](.docker/php/docker-entrypoint.sh) instructions to complete.
 
 ## Usage
 
