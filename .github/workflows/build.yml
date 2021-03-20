@@ -24,7 +24,9 @@ jobs:
       - name: Composer Install
         run: docker exec $(docker-compose -f .docker/docker-compose.yml ps -q php) composer install
       - name: Composer Test
-        run: docker exec $(docker-compose -f .docker/docker-compose.yml ps -q php) composer test
+        run: |
+          cp .assets/bootstrap.php app/config/bootstrap.php
+          docker exec $(docker-compose -f .docker/docker-compose.yml ps -q php) composer test
       - name: HTTP Check
         run: curl -v -o /dev/null http://localhost:8080
       - name: MySQL Check
