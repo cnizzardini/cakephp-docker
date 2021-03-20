@@ -1,39 +1,43 @@
 #
-# PHP
+# Container
+# @see https://hub.docker.com/repository/docker/cnizzardini/php-fpm-alpine
+# @see https://github.com/cnizzardini/php-fpm-alpine/tree/php-7.4
+FROM cnizzardini/php-fpm-alpine:7.4-latest AS cakephp_php
+
+ARG ENV
+ARG UID
+ENV APP_ENV=$ENV
+
+RUN apk add acl
+
 #
-FROM php:7.4-fpm-alpine
-
-ARG ENVIRONMENT
-ARG USER_ID
-ARG USERNAME
-
-WORKDIR /var/www/app
-
-# Fixes some weird terminal issues such as broken clear / CTRL+L
-ENV TERM=linux
-
-# Core dependencies
-RUN apk add libzip icu
-RUN apk add --no-cache --virtual .build-deps curl-dev libxml2-dev icu-dev libedit-dev libzip-dev
-RUN docker-php-ext-install intl pdo pdo_mysql curl json opcache readline xml zip
-
-# Dev dependencies
-RUN if [[ "$ENVIRONMENT" != "prod" ]]; then \
-    apk add --no-cache --virtual .php-deps git file re2c autoconf make zlib zlib-dev g++ \
+# Dev Depdencies
+#
+RUN if [[ "$ENV" != "prod" ]]; then \
+    apk add git \
+    && apk add --no-cache --virtual .php-deps file re2c autoconf make zlib zlib-dev g++ curl \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && apk del -f .php-deps; \
 fi
 
-# Cleanup
-RUN apk del -f .build-deps && rm -rf /tmp/* /var/cache/apk/*
+#
+# Application
+#
+COPY .docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+RUN chmod +x /usr/local/bin/docker-healthcheck
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 
-# Add user
-RUN if [[ "$USERNAME" != "root" ]]; then \
-    adduser --disabled-password --gecos '' -u $USER_ID --ingroup www-data cakephp; \
-fi
+COPY .docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint
 
-USER $USERNAME
+WORKDIR /srv/app
 
-COPY . .
-COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
+RUN adduser --disabled-password --gecos '' -u $UID cakephp;
+
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+COPY ./app .
+
+ENTRYPOINT ["docker-entrypoint"]
+CMD ["php-fpm"]

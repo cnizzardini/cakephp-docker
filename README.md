@@ -7,7 +7,8 @@
 [![NGINX](https://img.shields.io/badge/nginx-1.19-009639.svg?logo=nginx)](https://www.nginx.com/)
 [![MySQL](https://img.shields.io/badge/mysql-8-00758F.svg?logo=mysql)](https://www.mysql.com/)
 
-A simple [cakephp/app 4.2](https://github.com/cakephp/app/releases/tag/4.2.1) docker setup.
+A simple [cakephp/app 4.2](https://github.com/cakephp/app/releases/tag/4.2.1) template for Docker Compose and 
+Kubernetes via helm charts.
 
 | Service                   | Host:Port         | Docker Host   |
 | -----------               | -----------       | -----------   |
@@ -15,21 +16,25 @@ A simple [cakephp/app 4.2](https://github.com/cakephp/app/releases/tag/4.2.1) do
 | NGINX 1.19                | localhost:8080    | web           |
 | MySQL 8                   | localhost:3607    | db            |
 
+- [Installation](#installation)
+- [Usage](#usage)
+  - [PHP](#php)
+  - [MySQL](#mysql)
+  - [NGINX](#nginx)
+  - [XDebug](#xdebug)
+
 ## Installation
 
 Fork and clone this repository then run:
 
 ```console
 make init
-make composer.install
 ```
 
-If you prefer to do this manually, view the Makefile to see the shell commands being run.
+- Remove `app/*` from [.gitignore](.gitignore).
+- Enable `.env` loading in `config/bootstrap.php` so `config/.env` can be loaded.
 
-#### Mac OSX Users
-If you are using the make commands you will need `gnu-sed`, so `brew install gun-sed` and update the Makefile to
-use `gsed` or you can update your system to use `gsed` permanently:
-`export PATH="/usr/local/opt/gnu-sed/libex/gnubin:$PATH"`
+If you prefer to do this manually, view the [Makefile](Makefile) to see the shell commands being run.
 
 ## Usage
 
@@ -38,18 +43,23 @@ After install browse to [http://localhost:8080](http://localhost:8080) to see th
 On container restarts `.docker/*.env.development` is copied to `.docker/*.env`. These env vars may be used in
 `.docker/php/php.ini` for instance.
 
-A [Makefile](Makefile) is provided with some optional commands for your convenience.
+A [Makefile](Makefile) is provided with some optional commands for your convenience. Please review the Makefile as 
+these commands are not exact aliases of docker-compose commands.
 
 | Make Command              | Description       |
 | -----------               | -----------       |
-| `make up`                 | `docker-compose up -d` |
-| `make stop`               | `docker-compose stop` |
-| `make restart`            | `docker-compose restart` |
-| `make php.sh`             | Log in as default user (cakephp) `docker exec -it <PHP_CONTAINER> sh` |
-| `make php.root.sh`         | Log in as root `docker exec -it --user root <PHP_CONTAINER> sh` |
-| `make db.sh`             | `docker exec -it <DB_CONTAINER> sh` |
-| `make db.mysql`           | `mysql -u root -h 0.0.0.0 -p --port 3307` |
-| `make web.sh`             | `docker exec -it <WEB_CONTAINER> sh` |
+| `make init`               | Runs docker build, docker-compose up -d, and copies over env files |
+| `make init.nocache`       | Same as make.init but builds with --no-cache |
+| `make start`              | Starts services `docker-compose start` |
+| `make stop`               | Stops services `docker-compose stop` |
+| `make up`                 | Create and start containers `docker-compose up -d` |
+| `make down`               | Take down and remove all containers `docker-compose stop` |
+| `make restart`            | Restarts services `docker-compose -f .docker/docker-compose.yml restart` |
+| `make php.sh`             | PHP terminal `docker exec -it <PHP_CONTAINER> sh` |
+| `make php.restart`        | Restarts the PHP container |
+| `make db.sh`              | DB terminal `docker exec -it <DB_CONTAINER> sh` |
+| `make db.mysql`           | MySQL terminal `mysql -u root -h 0.0.0.0 -p --port 3307` |
+| `make web.sh`             | Web terminal `docker exec -it <WEB_CONTAINER> sh` |
 | `make xdebug.on`          | Restarts PHP container with xdebug.mode set to debug,coverage |
 | `make xdebug.off`         | Restarts PHP container with xdebug.mode set to off |
 | `make composer.install`   | `docker exec <PHP_CONTAINER> composer install --no-interaction` |
@@ -58,7 +68,7 @@ A [Makefile](Makefile) is provided with some optional commands for your convenie
 
 ### PHP
 
-See `.docker/php` for PHP INI settings. 
+See [.docker/php](.docker/php) for PHP INI settings and [.docker/](.docker/) directory for `php.env.*` settings.
 
 Shell:
 
@@ -76,8 +86,7 @@ make composer.check
 
 ### MySQL
 
-See [docker-compose.yml](docker-compose.yml) for accounts and passwords. See `.docker/mysql.env.development` for
-changing host, user, db, and password.
+See [.docker/](.docker/) directory for `mysql.env.*` for hostname, username, db, and password.
 
 Shell:
 
@@ -89,6 +98,16 @@ MySQL shell (requires mysql client on your localhost):
 
 ```console
 make db.mysql
+```
+
+### NGINX
+
+See [.docker/nginx](.docker/nginx) directory for conf file.
+
+Shell:
+
+```console
+make web.sh
 ```
 
 ### XDebug
@@ -112,4 +131,4 @@ Go to `File > Settings > Languages & Frameworks > PHP > Servers`
 - Debugger: `Xdebug`
 - Use path mappings: `Enable`
 
-Map your projects app directory to the absolute path on the docker container `/var/www/app`
+Map your projects app directory to the absolute path on the docker container `/srv/app`
