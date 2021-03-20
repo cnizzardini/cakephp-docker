@@ -31,7 +31,8 @@ Fork and clone this repository then run:
 make init
 ```
 
-Then remove `app/*` from [.gitignore](.gitignore).
+- Remove `app/*` from [.gitignore](.gitignore).
+- Enable `.env` loading in `config/bootstrap.php` so `config/.env` can be loaded.
 
 If you prefer to do this manually, view the [Makefile](Makefile) to see the shell commands being run.
 

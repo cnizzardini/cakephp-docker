@@ -1,6 +1,6 @@
 SHELL=/bin/bash
-include .env
-export $(shell sed 's/=.*//' .env)
+#include .env
+#export $(shell sed 's/=.*//' .env)
 
 #
 # define standard colors
