@@ -15,6 +15,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/cakephp' ]; then
       rm .gitkeep # create project fails if directory is not empty
     fi
 
+    COMPOSER_MEMORY_LIMIT=-1
     composer create-project --prefer-dist --no-interaction cakephp/app:^4.2 .
     rm -rf .github
 	  cp config/.env.example config/.env
