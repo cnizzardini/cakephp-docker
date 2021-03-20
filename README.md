@@ -31,6 +31,8 @@ Fork and clone this repository then run:
 make init
 ```
 
+Then remove `app/*` from [.gitignore](.gitignore).
+
 If you prefer to do this manually, view the [Makefile](Makefile) to see the shell commands being run.
 
 ## Usage
