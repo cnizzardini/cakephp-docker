@@ -5,14 +5,15 @@ services:
     build:
       context: ../
       dockerfile: .docker/Dockerfile
+      target: cakephp_php
     env_file:
       - php.env
     environment:
       PHP_IDE_CONFIG: "serverName=localhost"
     volumes:
-      - ../app/:/var/www/app
+      - ../app:/srv/app
       - ./php:/usr/local/etc/php
-      - ~/.ssh/:/home/${USERNAME}/.ssh
+      - ~/.ssh/:/home/root/.ssh
     depends_on:
       - db
 
@@ -29,8 +30,11 @@ services:
 
   web:
     image: nginx:1.19-alpine
+    working_dir: /srv/app
+    environment:
+      TERM: Linux
     volumes:
-      - ../app/webroot:/var/www/app/webroot
+      - ../app:/srv/app
       - ./nginx:/etc/nginx/conf.d
     ports:
       - "8080:80"

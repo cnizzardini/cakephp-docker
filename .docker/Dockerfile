@@ -1,36 +1,42 @@
 #
-# PHP
+# Container
 #
-FROM cnizzardini/php-fpm-alpine:7.4-latest
+FROM cnizzardini/php-fpm-alpine:7.4-latest AS cakephp_php
 
-ARG ENVIRONMENT
-ARG USER_ID
-ARG USERNAME
-ARG APP_DIR
+ARG ENV
+ARG UID
+ENV APP_ENV=$ENV
 
-WORKDIR /var/www/$APP_DIR
-
-ENV TERM=linux
+RUN apk add acl
 
 #
-# Dev dependencies
+# Dev Depdencies
 #
-RUN if [[ "$ENVIRONMENT" != "prod" ]]; then \
+RUN if [[ "$ENV" != "prod" ]]; then \
     apk add git \
-    && apk add --no-cache --virtual .php-deps file re2c autoconf make zlib zlib-dev g++ \
+    && apk add --no-cache --virtual .php-deps file re2c autoconf make zlib zlib-dev g++ curl \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && apk del -f .php-deps; \
 fi
 
 #
-# Add user
+# Application
 #
-RUN if [[ "$USERNAME" != "root" ]]; then \
-    adduser --disabled-password --gecos '' -u $USER_ID --ingroup www-data $USERNAME; \
-fi
+#COPY .docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+#RUN chmod +x /usr/local/bin/docker-healthcheck
+#HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 
-USER $USERNAME
+COPY .docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint
 
-COPY . .
-COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
+WORKDIR /srv/app
+
+RUN adduser --disabled-password --gecos '' -u $UID cakephp;
+
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+COPY ./app .
+
+ENTRYPOINT ["docker-entrypoint"]
+CMD ["php-fpm"]

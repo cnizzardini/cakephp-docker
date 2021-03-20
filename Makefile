@@ -31,9 +31,9 @@ endif
 # vars
 #
 DOCKER_COMPOSE  := ".docker/docker-compose.yml"
-SALT            := $(shell cat /dev/urandom | LC_CTYPE=C tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 PHP             := $(shell docker-compose -f $(DOCKER_COMPOSE) ps -q php)
-USER_ID         := $(shell id -u)
+UID             := $(shell id -u)
+GID             := $(shell id -g)
 
 #
 # unicode icons
@@ -49,15 +49,15 @@ KUBE_ICO        := '\U2699 '
 # install command
 #
 init: do.copy
-	@cp ${APP_DIR}/config/.env.example ${APP_DIR}/config/.env
-	@cp ${APP_DIR}/config/.env.example ${APP_DIR}/config/.env
-	@cp ${APP_DIR}/config/app_local.example.php $(APP_DIR)/config/app_local.php
-	@sed -i '/export APP_NAME/c\export APP_NAME="${APP_NAME}"' ${APP_DIR}/config/.env
-	@sed -i '/export SECURITY_SALT/c\export SECURITY_SALT="$(SALT)"' ${APP_DIR}/config/.env
-	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg USER_ID=$(USER_ID) --build-arg USERNAME=${USERNAME} --build-arg APP_DIR=${APP_DIR}
+	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(UID) --build-arg ENV=dev
 	@docker-compose -f $(DOCKER_COMPOSE) up -d
+init.nocache: do.copy
+	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(UID) --build-arg ENV=dev --no-cache
+	@docker-compose -f $(DOCKER_COMPOSE) up -d
+
 #
 # composer commands
+#
 composer.install:
 	@docker exec $(PHP) composer install --no-interaction --no-plugins --no-scripts --prefer-dist
 	@docker exec $(PHP) composer dump-autoload
@@ -69,24 +69,26 @@ composer.check:
 #
 # docker & docker-compose commands
 #
-up: do.copy
-	@printf $(DOCKER_ICO) && echo up
-	@docker-compose -f $(DOCKER_COMPOSE) up -d
+start: do.copy
+	@printf $(DOCKER_ICO) && echo start
+	@docker-compose -f $(DOCKER_COMPOSE) start
 stop:
 	@printf $(DOCKER_ICO) && echo stop
 	@docker-compose -f $(DOCKER_COMPOSE) stop
-restart: stop
+up: do.copy
 	@printf $(DOCKER_ICO) && echo up
 	@docker-compose -f $(DOCKER_COMPOSE) up -d
-build.prod:
-	@docker build --build-arg ENVIRONMENT=prod -t ${IMAGE_NAME} .docker/
-build.dev:
-	@docker build -t ${IMAGE_NAME}-dev .docker/
+down:
+	@printf $(DOCKER_ICO) && echo down
+	@docker-compose -f $(DOCKER_COMPOSE) down
+restart: stop
+	@printf $(DOCKER_ICO) && echo start
+	@docker-compose -f $(DOCKER_COMPOSE) start
 php.restart:
 	@printf $(DOCKER_ICO) && echo restart
 	@docker-compose -f $(DOCKER_COMPOSE) stop php
 	@cp .docker/php.env.development .docker/php.env
-	@docker-compose -f $(DOCKER_COMPOSE) up -d php
+	@docker-compose -f $(DOCKER_COMPOSE) start php
 
 #
 # container shell commands
@@ -94,9 +96,6 @@ php.restart:
 php.sh:
 	@printf $(SHELL_ICO) && echo  php shell
 	@docker exec -it $(PHP) sh
-php.root.sh:
-	@printf $(SHELL_ICO) && echo  php shell
-	@docker exec -it --user root $(PHP) sh
 db.sh:
 	@printf $(SHELL_ICO) && echo  db shell
 	@docker exec -it $(shell docker-compose -f $(DOCKER_COMPOSE) ps -q db) sh
