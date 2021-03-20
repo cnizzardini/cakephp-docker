@@ -21,12 +21,6 @@ jobs:
         run: docker-compose -f .docker/docker-compose.yml up -d
       - name: Wait for services
         run: sleep 5
-      - name: Composer Install
-        run: docker exec $(docker-compose -f .docker/docker-compose.yml ps -q php) composer install
-      - name: Composer Test
-        run: |
-          cp .assets/bootstrap.php app/config/bootstrap.php
-          docker exec $(docker-compose -f .docker/docker-compose.yml ps -q php) composer test
       - name: HTTP Check
         run: curl -v -o /dev/null http://localhost:8080
       - name: MySQL Check
