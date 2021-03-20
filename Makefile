@@ -106,10 +106,12 @@ help:
 #
 init: do.copy
 	@printf $(DOCKER_ICO) && printf "$(GOOD) running docker build and up -d $(E)"
+	@mkdir -p app && touch app/.gitkeep
 	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(UID) --build-arg ENV=dev
 	@$(DC_UP)
 init.nocache: do.copy
 	@printf $(DOCKER_ICO) && printf "$(GOOD)running docker build --no-cache and up -d $(E)"
+	@mkdir -p app && touch app/.gitkeep
 	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(UID) --build-arg ENV=dev --no-cache
 	@$(DC_UP)
 

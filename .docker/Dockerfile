@@ -37,6 +37,7 @@ RUN adduser --disabled-password --gecos '' -u $UID cakephp;
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
+COPY ./.assets /srv/.assets
 COPY ./app .
 
 ENTRYPOINT ["docker-entrypoint"]
