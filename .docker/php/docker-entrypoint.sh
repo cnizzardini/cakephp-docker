@@ -11,10 +11,6 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/cakephp' ]; then
 	# The first time volumes are mounted, the project needs to be recreated
 	if [ ! -f composer.json ]; then
 
-    if [ -f .gitkeep ]; then
-      rm .gitkeep # create project fails if directory is not empty
-    fi
-
     COMPOSER_MEMORY_LIMIT=-1
     composer create-project --prefer-dist --no-interaction cakephp/app:^4.2 .
     rm -rf .github
