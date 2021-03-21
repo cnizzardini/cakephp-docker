@@ -8,8 +8,6 @@ ARG ENV
 ARG UID
 ENV APP_ENV=$ENV
 
-RUN apk add acl
-
 #
 # Dev Depdencies
 #
