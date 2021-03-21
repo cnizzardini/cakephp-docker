@@ -48,6 +48,7 @@ these commands are not exact aliases of docker-compose commands.
 
 | Make Command              | Description       |
 | -----------               | -----------       |
+| `make`                    | Shows all make target commands |
 | `make init`               | Runs docker build, docker-compose up -d, and copies over env files |
 | `make init.nocache`       | Same as make.init but builds with --no-cache |
 | `make start`              | Starts services `docker-compose start` |
