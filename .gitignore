@@ -42,5 +42,3 @@ nbproject/*
 # project files     #
 ######################
 .docker/php/conf.d/*.ini
-.docker/mysql.env
-.docker/php.env

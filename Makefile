@@ -188,6 +188,4 @@ composer.check:
 # internal
 #
 do.copy:
-	@cp .docker/php.env.development .docker/php.env
-	@cp .docker/mysql.env.development .docker/mysql.env
 	@cp .docker/php/conf.d/20-overrides.ini.development .docker/php/conf.d/20-overrides.ini
