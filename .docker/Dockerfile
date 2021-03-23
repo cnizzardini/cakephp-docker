@@ -1,5 +1,5 @@
 #
-# Container
+# container
 # @see https://hub.docker.com/repository/docker/cnizzardini/php-fpm-alpine
 # @see https://github.com/cnizzardini/php-fpm-alpine/tree/php-7.4
 FROM cnizzardini/php-fpm-alpine:7.4-latest AS cakephp_php
@@ -9,7 +9,7 @@ ARG UID
 ENV APP_ENV=$ENV
 
 #
-# Dev Depdencies
+# dev depdencies
 #
 RUN if [[ "$ENV" != "prod" ]]; then \
     apk add git \
@@ -20,7 +20,7 @@ RUN if [[ "$ENV" != "prod" ]]; then \
 fi
 
 #
-# Application
+# application
 #
 COPY .docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
 RUN chmod +x /usr/local/bin/docker-healthcheck
