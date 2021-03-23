@@ -99,11 +99,12 @@ help:
 	@printf "$(INFO) make composer.test $(RESET)\t run phpunit test suite $(E)"
 	@printf "$(INFO) make composer.check $(RESET)\t run phpunit and static analysis $(E)"
 	@printf "\n"
+
 #
 # install command
 #
 init: do.copy
-	@printf $(DOCKER_ICO) && printf "$(GOOD) running docker build and up -d $(E)"
+	@printf $(DOCKER_ICO) && printf "$(GOOD)running docker build and up -d $(E)"
 	@mkdir -p app && touch app/.gitkeep
 	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(shell id -u) --build-arg ENV=dev
 	@$(DC_UP)
@@ -112,6 +113,7 @@ init.nocache: do.copy
 	@mkdir -p app && touch app/.gitkeep
 	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(shell id -u) --build-arg ENV=dev --no-cache
 	@$(DC_UP)
+
 #
 # docker & docker-compose commands
 #
