@@ -7,7 +7,7 @@ services:
       dockerfile: .docker/Dockerfile
       target: cakephp_php
     env_file:
-      - php.env
+      - php.env.development
     environment:
       PHP_IDE_CONFIG: "serverName=localhost"
     volumes:
@@ -22,7 +22,7 @@ services:
     command: mysqld --sql_mode="" --default-authentication-plugin=mysql_native_password
     restart: always
     env_file:
-      - mysql.env
+      - mysql.env.development
     volumes:
       - data:/var/lib/mysql
     ports:
