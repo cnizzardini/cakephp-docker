@@ -31,8 +31,6 @@ endif
 #
 DOCKER_COMPOSE  := ".docker/docker-compose.yml"
 PHP             := $(shell docker-compose -f $(DOCKER_COMPOSE) ps -q php)
-UID             := $(shell id -u)
-GID             := $(shell id -g)
 
 #
 # unicode icons
@@ -54,7 +52,7 @@ E               := $(RESET)\n
 CMD             := \n   $(BLACK)
 GOOD            := $(GREEN)
 INFO            := $(BLUE)
-MEH             := $(YELLOW)
+WARN            := $(YELLOW)
 
 #
 # cmds
@@ -107,14 +105,13 @@ help:
 init: do.copy
 	@printf $(DOCKER_ICO) && printf "$(GOOD) running docker build and up -d $(E)"
 	@mkdir -p app && touch app/.gitkeep
-	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(UID) --build-arg ENV=dev
+	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(shell id -u) --build-arg ENV=dev
 	@$(DC_UP)
 init.nocache: do.copy
 	@printf $(DOCKER_ICO) && printf "$(GOOD)running docker build --no-cache and up -d $(E)"
 	@mkdir -p app && touch app/.gitkeep
-	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(UID) --build-arg ENV=dev --no-cache
+	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(shell id -u) --build-arg ENV=dev --no-cache
 	@$(DC_UP)
-
 #
 # docker & docker-compose commands
 #
@@ -122,22 +119,22 @@ start: do.copy
 	@printf $(DOCKER_ICO) && printf "$(GOOD)start $(S) $(CMD) $(DC_START) $(E)"
 	@$(DC_START)
 stop:
-	@printf $(DOCKER_ICO) && printf "$(MEH)stop $(S) $(CMD) $(DC_STOP) $(E)"
+	@printf $(DOCKER_ICO) && printf "$(WARN)stop $(S) $(CMD) $(DC_STOP) $(E)"
 	@$(DC_STOP)
 up: do.copy
 	@printf $(DOCKER_ICO) && printf "$(GOOD)up $(S) $(CMD) $(DC_UP) $(E)"
 	@$(DC_UP)
 down:
-	@printf $(DOCKER_ICO) && printf "$(MEH)down $(S) $(CMD) $(DC_DOWN) $(E)"
+	@printf $(DOCKER_ICO) && printf "$(WARN)down $(S) $(CMD) $(DC_DOWN) $(E)"
 	@$(DC_DOWN)
 restart: stop
 	@printf $(DOCKER_ICO) && printf "$(GOOD)start $(S) $(CMD) $(DC_START) $(E)"
 	@$(DC_START)
 php.restart:
-	@printf $(DOCKER_ICO) && printf "$(GOOD)restart $(E)"
-	@docker-compose -f $(DOCKER_COMPOSE) stop php
+	@printf $(DOCKER_ICO) && printf "$(GOOD)restart $(S) php $(CMD) $(DC_STOP) php $(CMD) $(DC_START) php $(E)"
+	@$(DC_STOP) php
 	@cp .docker/php.env.development .docker/php.env
-	@docker-compose -f $(DOCKER_COMPOSE) start php
+	@$(DC_START) php
 
 #
 # container shell commands
@@ -169,7 +166,7 @@ xdebug.off:
 	@docker container stop $(PHP) > /dev/null
 	@sed -i '/xdebug.mode/c\xdebug.mode=off' .docker/php/conf.d/20-overrides.ini
 	@docker container start $(PHP) > /dev/null
-	@printf "$(MEH) xdebug off $(E)"
+	@printf "$(WARN) xdebug off $(E)"
 
 #
 # composer commands
