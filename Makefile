@@ -52,7 +52,7 @@ E               := $(RESET)\n
 CMD             := \n   $(BLACK)
 GOOD            := $(GREEN)
 INFO            := $(BLUE)
-MEH             := $(YELLOW)
+WARN            := $(YELLOW)
 
 #
 # cmds
@@ -112,7 +112,6 @@ init.nocache: do.copy
 	@mkdir -p app && touch app/.gitkeep
 	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(shell id -u) --build-arg ENV=dev --no-cache
 	@$(DC_UP)
-
 #
 # docker & docker-compose commands
 #
@@ -120,13 +119,13 @@ start: do.copy
 	@printf $(DOCKER_ICO) && printf "$(GOOD)start $(S) $(CMD) $(DC_START) $(E)"
 	@$(DC_START)
 stop:
-	@printf $(DOCKER_ICO) && printf "$(MEH)stop $(S) $(CMD) $(DC_STOP) $(E)"
+	@printf $(DOCKER_ICO) && printf "$(WARN)stop $(S) $(CMD) $(DC_STOP) $(E)"
 	@$(DC_STOP)
 up: do.copy
 	@printf $(DOCKER_ICO) && printf "$(GOOD)up $(S) $(CMD) $(DC_UP) $(E)"
 	@$(DC_UP)
 down:
-	@printf $(DOCKER_ICO) && printf "$(MEH)down $(S) $(CMD) $(DC_DOWN) $(E)"
+	@printf $(DOCKER_ICO) && printf "$(WARN)down $(S) $(CMD) $(DC_DOWN) $(E)"
 	@$(DC_DOWN)
 restart: stop
 	@printf $(DOCKER_ICO) && printf "$(GOOD)start $(S) $(CMD) $(DC_START) $(E)"
@@ -167,7 +166,7 @@ xdebug.off:
 	@docker container stop $(PHP) > /dev/null
 	@sed -i '/xdebug.mode/c\xdebug.mode=off' .docker/php/conf.d/20-overrides.ini
 	@docker container start $(PHP) > /dev/null
-	@printf "$(MEH) xdebug off $(E)"
+	@printf "$(WARN) xdebug off $(E)"
 
 #
 # composer commands
