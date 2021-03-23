@@ -49,7 +49,7 @@ COMP_ICO        := ' \U1F3B5 '
 #
 S               := \U203A
 E               := $(RESET)\n
-CMD             := \n   $(BLACK)
+CMD             := \n   $(PURPLE)
 GOOD            := $(GREEN)
 INFO            := $(BLUE)
 WARN            := $(YELLOW)
