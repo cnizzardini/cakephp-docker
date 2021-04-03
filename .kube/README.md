@@ -7,7 +7,7 @@ You can run kubernetes locally with an orchestration tool such as [minikube](htt
 minikube start
 ```
 
-Apply [mysql-secret.yaml](mysql-secret.yaml) and [php-fpm-secret.yaml](php-fpm-secret.yaml).
+Apply [mysql-secret.yaml](mysql-secret.yaml) and [php-fpm-secret.yaml](php-secret.yaml).
 
 ```console
 kubectl apply -f mysql-secret.yaml
@@ -18,4 +18,10 @@ Apply deployments and services:
 
 ```console
 kubectl apply -f .
+```
+
+Start service:
+
+```console
+minikube service nginx-service
 ```
