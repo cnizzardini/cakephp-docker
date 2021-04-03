@@ -42,7 +42,6 @@ jobs:
           file: .docker/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.prep.outputs.tags }}
-          build-args: UID=1000 ENV=prod
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
