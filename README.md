@@ -7,14 +7,13 @@
 [![NGINX](https://img.shields.io/badge/nginx-1.19-009639.svg?logo=nginx)](https://www.nginx.com/)
 [![MySQL](https://img.shields.io/badge/mysql-8-00758F.svg?logo=mysql)](https://www.mysql.com/)
 
-A simple [cakephp/app 4.2](https://github.com/cakephp/app/releases/tag/4.2.1) template for Docker Compose and 
-Kubernetes via helm charts.
+A [cakephp/app 4.2](https://github.com/cakephp/app) template for Docker Compose and Kubernetes.
 
-| Service                   | Host:Port         | Docker Host   |
-| -----------               | -----------       | -----------   |
-| PHP7.4-FPM w/ Xdebug 3    | -                 | php           |
-| NGINX 1.19                | localhost:8080    | web           |
-| MySQL 8                   | localhost:3607    | db            |
+| Service                   | Host:Port         | Docker Host   | Image   |
+| -----------               | -----------       | -----------   | -----------   |
+| PHP7.4-FPM w/ Xdebug 3    | -                 | php           | [cnizzardini/php-fpm-alpine:7.4-latest](https://hub.docker.com/r/cnizzardini/php-fpm-alpine) |
+| NGINX 1.19                | localhost:8080    | web           | [nginx:1.19-alpine](https://hub.docker.com/_/nginx) |
+| MySQL 8                   | localhost:3607    | db            | [library/mysql:8](https://hub.docker.com/_/mysql) |
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -33,17 +32,13 @@ make init
 
 That's it! Now just remove `app/*` from [.gitignore](.gitignore).
 
-After install is complete it may take another few moments for permissions to be set and for the 
-[docker-entrypoint.sh](.docker/php/docker-entrypoint.sh) instructions to complete.
+> Note: `make init` and `make init.nocache` output interactively, while `make start` and `make up` do not.
 
 ## Usage
 
 After install browse to [http://localhost:8080](http://localhost:8080) to see the CakePHP welcome page.
 
-On container restarts `.docker/*.env.development` is copied to `.docker/*.env`. These env vars may be used in
-`.docker/php/php.ini` for instance.
-
-A [Makefile](Makefile) is provided with some optional commands for your convenience. Please review the Makefile as 
+A [Makefile](Makefile) is provided with some optional commands for your convenience. Please review the Makefile as
 these commands are not exact aliases of docker-compose commands.
 
 | Make Command              | Description       |
@@ -69,7 +64,7 @@ these commands are not exact aliases of docker-compose commands.
 
 ### PHP
 
-See [.docker/php](.docker/php) for PHP INI settings and [.docker/](.docker/) directory for `php.env.*` settings.
+See [.docker/README.md](.docker/README.md) for details.
 
 Shell:
 
@@ -87,7 +82,7 @@ make composer.check
 
 ### MySQL
 
-See [.docker/](.docker/) directory for `mysql.env.*` for hostname, username, db, and password.
+See [.docker/README.md](.docker/README.md) for details.
 
 Shell:
 
@@ -103,7 +98,7 @@ make db.mysql
 
 ### NGINX
 
-See [.docker/nginx](.docker/nginx) directory for conf file.
+See [.docker/README.md](.docker/README.md) for details.
 
 Shell:
 
