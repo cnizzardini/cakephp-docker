@@ -20,7 +20,7 @@ A [cakephp/app 4.2](https://github.com/cakephp/app) template for Docker Compose 
   - [PHP](#php)
   - [MySQL](#mysql)
   - [NGINX](#nginx)
-  - [XDebug](#xdebug)
+  - [Xdebug](#xdebug)
 
 ## Installation
 
@@ -106,7 +106,7 @@ Shell:
 make web.sh
 ```
 
-### XDebug
+### Xdebug
 
 Xdebug is disabled by default. To toggle:
 
