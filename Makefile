@@ -59,7 +59,7 @@ WARN            := $(YELLOW)
 #
 DC_START        := docker-compose -f $(DOCKER_COMPOSE) start
 DC_STOP         := docker-compose -f $(DOCKER_COMPOSE) stop
-DC_UP           := docker-compose -f $(DOCKER_COMPOSE) up -d
+DC_UP           := docker-compose -f $(DOCKER_COMPOSE) up
 DC_DOWN         := docker-compose -f $(DOCKER_COMPOSE) down
 PHP_SH          := docker exec -it $(PHP) sh
 DB_SH           := docker exec -it $(shell docker-compose -f $(DOCKER_COMPOSE) ps -q db) sh
@@ -124,8 +124,8 @@ stop:
 	@printf $(DOCKER_ICO) && printf "$(WARN)stop $(S) $(CMD) $(DC_STOP) $(E)"
 	@$(DC_STOP)
 up: do.copy
-	@printf $(DOCKER_ICO) && printf "$(GOOD)up $(S) $(CMD) $(DC_UP) $(E)"
-	@$(DC_UP)
+	@printf $(DOCKER_ICO) && printf "$(GOOD)up $(S) $(CMD) $(DC_UP) -d $(E)"
+	@$(DC_UP) -d
 down:
 	@printf $(DOCKER_ICO) && printf "$(WARN)down $(S) $(CMD) $(DC_DOWN) $(E)"
 	@$(DC_DOWN)
