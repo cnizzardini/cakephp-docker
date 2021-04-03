@@ -1,4 +1,4 @@
-# Docker Architecture
+# &#128011; Docker
 
 All docker-related configurations are stored in this directory. See [docker-compose.yml](docker-compose.yml) and
 [Dockerfile](Dockerfile).
