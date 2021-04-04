@@ -12,22 +12,16 @@ minikube start
 Apply secrets and config maps:
 
 ```console
+kubectl apply -f .kube/namespace.yaml
 kubectl apply -f .kube/mysql-secret.yaml
-kubectl apply -f .kube/php-fpm-secret.yaml
-kubectl create configmap nginx-conf --from-file=.docker/nginx/default.conf
-kubectl create configmap php-ini --from-file=.docker/php/production/php.ini
-```
-
-Apply deployments and services:
-
-```console
+kubectl apply -f .kube/php-secret.yaml
 kubectl apply -f .
 ```
 
 Start service:
 
 ```console
-minikube service nginx-service
+minikube service nginx-service -n cakephp-docker
 ```
 
 ## Using local image
