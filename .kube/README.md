@@ -5,20 +5,10 @@ This is provided as a starter/example setup. You can run kubernetes locally with
 
 ```console
 minikube start
-```
-
-Apply secrets and config maps:
-
-```console
 kubectl apply -f .kube/namespace.yaml
 kubectl apply -f .kube/mysql-secret.yaml
 kubectl apply -f .kube/php-secret.yaml
 kubectl apply -f .
-```
-
-Start service:
-
-```console
 minikube service nginx-service -n cakephp-docker
 ```
 
