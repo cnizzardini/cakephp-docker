@@ -33,12 +33,14 @@ if [ ! -f composer.json ]; then
         chown -R cakephp:www-data .
     fi
 
-	elif [ "$APP_ENV" != 'prod' ]; then
-		composer install --prefer-dist --no-interaction
-	fi
+    setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX logs
+    setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX tmp
+fi
 
-	setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX logs
-	setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX tmp
+if [ "$APP_ENV" = 'prod' ]; then
+    composer install --prefer-dist --no-interaction --no-dev
+else
+    composer install --prefer-dist --no-interaction
 fi
 
 exec docker-php-entrypoint "$@"
