@@ -31,6 +31,7 @@ endif
 #
 DOCKER_COMPOSE  := ".docker/docker-compose.yml"
 PHP             := $(shell docker-compose -f $(DOCKER_COMPOSE) ps -q php)
+PHP_DEV_PATH	:= ".docker/php/development"
 
 #
 # unicode icons
@@ -160,13 +161,13 @@ web.sh:
 xdebug.on:
 	@printf $(XDEBUG_ICO) && printf "$(INFO)start xdebug $(S)"
 	@docker container stop $(PHP) > /dev/null
-	@sed -i '/xdebug.mode/c\xdebug.mode=coverage,debug' .docker/php/conf.d/20-overrides.ini
+	@sed -i '/xdebug.mode/c\xdebug.mode=coverage,debug' $(PHP_DEV_PATH)/conf.d/20-overrides.ini
 	@docker container start $(PHP) > /dev/null
 	@printf "$(GOOD) xdebug on $(E)"
 xdebug.off:
 	@printf $(XDEBUG_ICO) && printf "$(INFO)stop xdebug $(S)"
 	@docker container stop $(PHP) > /dev/null
-	@sed -i '/xdebug.mode/c\xdebug.mode=off' .docker/php/conf.d/20-overrides.ini
+	@sed -i '/xdebug.mode/c\xdebug.mode=off' $(PHP_DEV_PATH)conf.d/20-overrides.ini
 	@docker container start $(PHP) > /dev/null
 	@printf "$(WARN) xdebug off $(E)"
 
@@ -188,4 +189,4 @@ composer.check:
 # internal
 #
 do.copy:
-	@cp .docker/php/conf.d/20-overrides.ini.development .docker/php/conf.d/20-overrides.ini
+	@cp $(PHP_DEV_PATH)/conf.d/20-overrides.ini.development $(PHP_DEV_PATH)/conf.d/20-overrides.ini
