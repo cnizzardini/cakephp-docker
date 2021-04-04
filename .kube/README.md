@@ -1,7 +1,5 @@
 # &#x2638; Kubernetes
 
-- @todo php environment vars
-
 This is provided as a starter/example setup. You can run kubernetes locally with an orchestration tool such as
 [minikube](https://minikube.sigs.k8s.io/docs/) and [kubectl](https://kubernetes.io/docs/tasks/tools/).
 
