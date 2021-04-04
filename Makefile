@@ -167,7 +167,7 @@ xdebug.on:
 xdebug.off:
 	@printf $(XDEBUG_ICO) && printf "$(INFO)stop xdebug $(S)"
 	@docker container stop $(PHP) > /dev/null
-	@sed -i '/xdebug.mode/c\xdebug.mode=off' $(PHP_DEV_PATH)conf.d/20-overrides.ini
+	@sed -i '/xdebug.mode/c\xdebug.mode=off' $(PHP_DEV_PATH)/conf.d/20-overrides.ini
 	@docker container start $(PHP) > /dev/null
 	@printf "$(WARN) xdebug off $(E)"
 
