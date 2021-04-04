@@ -1,7 +1,7 @@
 # &#128011; Docker
 
-All docker-related configurations are stored in this directory. See [docker-compose.yml](docker-compose.yml) and
-[Dockerfile](Dockerfile).
+It's expected that you will use your own Dockerfile for production. All docker-related configurations are stored
+in this directory. See [docker-compose.yml](docker-compose.yml) and [Dockerfile](Dockerfile).
 
 ## NGINX
 
