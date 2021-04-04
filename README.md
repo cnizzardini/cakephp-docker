@@ -30,7 +30,8 @@ Fork and clone this repository then run:
 make init
 ```
 
-That's it! Now just remove `app/*` from [.gitignore](.gitignore).
+That's it! Now just remove `app/*` from [.gitignore](.gitignore). You may also want to remove
+[.assets](.assets) and adjust defaults in [.github](.github), [.docker](.docker), and [.kube](.kube).
 
 > Note: `make init` and `make init.nocache` output interactively, while `make start` and `make up` do not.
 
