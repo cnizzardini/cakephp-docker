@@ -12,7 +12,7 @@ services:
       PHP_IDE_CONFIG: "serverName=localhost"
     volumes:
       - ../app:/srv/app
-      - ./php:/usr/local/etc/php
+      - ./php/development:/usr/local/etc/php
       - ~/.ssh/:/home/root/.ssh
     depends_on:
       - db
