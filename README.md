@@ -48,10 +48,10 @@ these commands are not exact aliases of docker-compose commands.
 | `make`                    | Shows all make target commands |
 | `make init`               | Runs docker build, docker-compose up, and copies over env files |
 | `make init.nocache`       | Same as make.init but builds with --no-cache |
-| `make start`              | Starts services `docker-compose start` |
-| `make stop`               | Stops services `docker-compose stop` |
-| `make up`                 | Create and start containers `docker-compose up -d` |
-| `make down`               | Take down and remove all containers `docker-compose stop` |
+| `make start`              | Starts services `docker-compose -f .docker/docker-compose.yml start` |
+| `make stop`               | Stops services `docker-compose -f .docker/docker-compose.yml stop` |
+| `make up`                 | Create and start containers `docker-compose -f .docker/docker-compose.yml up -d` |
+| `make down`               | Take down and remove all containers `docker-compose -f .docker/docker-compose.yml down` |
 | `make restart`            | Restarts services `docker-compose -f .docker/docker-compose.yml restart` |
 | `make php.sh`             | PHP terminal `docker exec -it --user cakephp <PHP_CONTAINER> sh` |
 | `make php.restart`        | Restarts the PHP container |
