@@ -46,14 +46,14 @@ these commands are not exact aliases of docker-compose commands.
 | Make Command              | Description       |
 | -----------               | -----------       |
 | `make`                    | Shows all make target commands |
-| `make init`               | Runs docker build, docker-compose up -d, and copies over env files |
+| `make init`               | Runs docker build, docker-compose up, and copies over env files |
 | `make init.nocache`       | Same as make.init but builds with --no-cache |
 | `make start`              | Starts services `docker-compose start` |
 | `make stop`               | Stops services `docker-compose stop` |
 | `make up`                 | Create and start containers `docker-compose up -d` |
 | `make down`               | Take down and remove all containers `docker-compose stop` |
 | `make restart`            | Restarts services `docker-compose -f .docker/docker-compose.yml restart` |
-| `make php.sh`             | PHP terminal `docker exec -it <PHP_CONTAINER> sh` |
+| `make php.sh`             | PHP terminal `docker exec -it --user cakephp <PHP_CONTAINER> sh` |
 | `make php.restart`        | Restarts the PHP container |
 | `make db.sh`              | DB terminal `docker exec -it <DB_CONTAINER> sh` |
 | `make db.mysql`           | MySQL terminal `mysql -u root -h 0.0.0.0 -p --port 3307` |
