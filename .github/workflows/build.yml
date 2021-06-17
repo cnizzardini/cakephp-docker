@@ -14,11 +14,11 @@ jobs:
           cp .docker/php.env.development .docker/php.env
           cp .docker/mysql.env.development .docker/mysql.env
       - name: Pull images
-        run: docker-compose -f .docker/docker-compose.yml pull
+        run: docker-compose pull
       - name: Build
-        run: docker-compose -f .docker/docker-compose.yml build --build-arg UID=$(id -u) --build-arg ENV=dev
+        run: docker-compose build --build-arg UID=$(id -u) --build-arg ENV=dev
       - name: Start
-        run: docker-compose -f .docker/docker-compose.yml up -d
+        run: docker-compose up -d
       - name: Wait for services
         run: sleep 5
       - name: HTTP Check

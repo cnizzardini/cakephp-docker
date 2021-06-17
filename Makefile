@@ -29,8 +29,8 @@ endif
 #
 # vars
 #
-DOCKER_COMPOSE  := ".docker/docker-compose.yml"
-PHP             := $(shell docker-compose -f $(DOCKER_COMPOSE) ps -q php)
+DOCKER_COMPOSE  := "docker-compose.yml"
+PHP             := $(shell docker-compose  ps -q php)
 PHP_DEV_PATH	:= ".docker/php/development"
 
 #
@@ -58,14 +58,14 @@ WARN            := $(YELLOW)
 #
 # cmds
 #
-DC_START        := docker-compose -f $(DOCKER_COMPOSE) start
-DC_STOP         := docker-compose -f $(DOCKER_COMPOSE) stop
-DC_UP           := docker-compose -f $(DOCKER_COMPOSE) up
-DC_DOWN         := docker-compose -f $(DOCKER_COMPOSE) down
+DC_START        := docker-compose start
+DC_STOP         := docker-compose stop
+DC_UP           := docker-compose up
+DC_DOWN         := docker-compose down
 PHP_SH          := docker exec -it --user cakephp $(PHP) sh
-DB_SH           := docker exec -it $(shell docker-compose -f $(DOCKER_COMPOSE) ps -q db) sh
+DB_SH           := docker exec -it $(shell docker-compose ps -q db) sh
 MYSQL_SH        := mysql -u root -h 0.0.0.0 -p --port 3307
-WEB_SH          := docker exec -it $(shell docker-compose -f $(DOCKER_COMPOSE) ps -q web) sh
+WEB_SH          := docker exec -it $(shell docker-compose ps -q web) sh
 COMP_INSTALL    := docker exec $(PHP) composer install --no-interaction --no-plugins --no-scripts --prefer-dist
 COMP_TEST       := docker exec $(PHP) composer test
 COMP_CHECK      := docker exec $(PHP) composer check
@@ -107,12 +107,12 @@ help:
 init: do.copy
 	@printf $(DOCKER_ICO) && printf "$(GOOD)running docker build and up $(E)"
 	@mkdir -p app && touch app/.gitkeep
-	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(shell id -u) --build-arg ENV=dev
+	@docker-compose build --build-arg UID=$(shell id -u) --build-arg ENV=dev
 	@$(DC_UP)
 init.nocache: do.copy
 	@printf $(DOCKER_ICO) && printf "$(GOOD)running docker build --no-cache and up $(E)"
 	@mkdir -p app && touch app/.gitkeep
-	@docker-compose -f $(DOCKER_COMPOSE) build --build-arg UID=$(shell id -u) --build-arg ENV=dev --no-cache
+	@docker-compose build --build-arg UID=$(shell id -u) --build-arg ENV=dev --no-cache
 	@$(DC_UP)
 
 #

@@ -1,0 +1,11 @@
+app/vendor/
+app/logs/
+app/tmp/
+app/config/.env
+app/config/app_local.php
+app/.git
+app/.cache
+app/.editorconfig
+app/.gitattributes
+app/.gitignore
+app/.gitkeep
