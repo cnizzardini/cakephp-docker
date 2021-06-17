@@ -3,16 +3,15 @@ version: '3.4'
 services:
   php:
     build:
-      context: ../
-      dockerfile: .docker/Dockerfile
+      context: .
       target: cakephp_php
     env_file:
-      - php.env.development
+      - ./.docker/php.env.development
     environment:
       PHP_IDE_CONFIG: "serverName=localhost"
     volumes:
-      - ../app:/srv/app
-      - ./php/development:/usr/local/etc/php
+      - ./app:/srv/app
+      - ./.docker/php/development:/usr/local/etc/php
       - ~/.ssh/:/home/root/.ssh
     depends_on:
       - db
@@ -22,7 +21,7 @@ services:
     command: mysqld --sql_mode="" --default-authentication-plugin=mysql_native_password
     restart: always
     env_file:
-      - mysql.env.development
+      - ./.docker/mysql.env.development
     volumes:
       - data:/var/lib/mysql
     ports:
@@ -30,12 +29,12 @@ services:
 
   web:
     image: nginx:1.19-alpine
-    working_dir: /srv/app
+    working_dir: /srv/app/
     environment:
       TERM: Linux
     volumes:
-      - ../app:/srv/app
-      - ./nginx:/etc/nginx/conf.d
+      - ./app:/srv/app
+      - ./.docker/nginx:/etc/nginx/conf.d
     ports:
       - "8080:80"
     depends_on:

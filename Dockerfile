@@ -9,7 +9,7 @@ ARG UID=1000
 ENV APP_ENV=$ENV
 
 #
-# dev depdencies
+# dev/test depdencies
 #
 RUN if [[ "$ENV" != "prod" ]]; then \
     apk add git \
@@ -29,14 +29,20 @@ HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 COPY .docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
+COPY .assets /srv/.assets
+
 WORKDIR /srv/app
 
+RUN addgroup -g 101 nginx
 RUN adduser --disabled-password --gecos '' -u $UID cakephp;
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-COPY ./.assets /srv/.assets
-COPY ./app .
+COPY app .
+
+RUN if [[ "$ENV" = "prod" ]]; then \
+    composer install --prefer-dist --no-interaction --no-dev; \
+fi
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
