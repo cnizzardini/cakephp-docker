@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 services:
   php:
@@ -36,8 +36,17 @@ services:
       - ./app:/srv/app
       - ./.docker/nginx:/etc/nginx/conf.d
     ports:
-      - "8080:80"
+      - "80:80"
     depends_on:
       - php
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+
 volumes:
   data:
