@@ -8,7 +8,7 @@
 [![NGINX](https://img.shields.io/badge/nginx-1.19-009639.svg?logo=nginx)](https://hub.docker.com/_/nginx)
 [![MySQL](https://img.shields.io/badge/mysql-8-00758F.svg?logo=mysql)](https://hub.docker.com/_/mysql)
 
-A [cakephp/app 4.2](https://github.com/cakephp/app) template for Docker Compose and Kubernetes. You might also be interested in [CakePHP Galley](https://gitlab.com/amayer5125/galley) which is similar to Laravel Sail.
+A [cakephp/app 4.2](https://github.com/cakephp/app) template for Docker Compose and Kubernetes. You might also be interested in [CakePHP Galley](https://gitlab.com/amayer5125/galley) which is similar to Laravel Sail or [DevilBox](https://devilbox.readthedocs.io/en/latest/examples/setup-cakephp.html).
 
 | Service                   | Host:Port         | Docker Host   | Image   |
 | -----------               | -----------       | -----------   | -----------   |
