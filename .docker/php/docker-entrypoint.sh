@@ -20,7 +20,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/cakephp' ]; then
         rm -rf .github
         cp config/.env.example config/.env
         cp config/app_local.example.php config/app_local.php
-        mv ../.assets/bootstrap.php config/bootstrap.php
+        cp ../.assets/bootstrap.php config/bootstrap.php
 
         sed -i '/export APP_NAME/c\export APP_NAME="cakephp"' config/.env
 
