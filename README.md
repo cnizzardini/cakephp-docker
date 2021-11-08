@@ -17,6 +17,7 @@ A [cakephp/app 4.2](https://github.com/cakephp/app) template for Docker Compose 
 | MySQL 8                   | localhost:3607    | db            | [library/mysql:8](https://hub.docker.com/_/mysql) |
 
 - [Installation](#installation)
+- [MacOS Notes](#mac-notes)
 - [Usage](#usage)
   - [PHP](#php)
   - [MySQL](#mysql)
@@ -35,6 +36,18 @@ That's it! Now just remove `app/*` from [.gitignore](.gitignore). You may also w
 [.assets](.assets) and adjust defaults in [.github](.github), [.docker](.docker), and [.kube](.kube).
 
 > Note: `make init` and `make init.nocache` output interactively, while `make start` and `make up` do not.
+
+## Mac Notes
+
+1. Change your `SHELL` in the Makefile to `/bin/zsh`.
+
+2. You will need `gnu-sed` for some targets in the Makefile:
+
+```console
+brew install gnu-sed
+```
+
+Then update `sed` to `gsed` in the Makefile.
 
 ## Usage
 
