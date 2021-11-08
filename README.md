@@ -39,9 +39,9 @@ That's it! Now just remove `app/*` from [.gitignore](.gitignore). You may also w
 
 ## Mac Notes
 
-1. Change your `SHELL` in the Makefile to `/bin/zsh`.
+1. Change your `SHELL` in the Makefile to `/bin/zsh`. This improves various output from the Makefile such as emoji's.
 
-2. You will need `gnu-sed` for some targets in the Makefile:
+3. Mac ships with an older version of `sed` so install `gnu-sed` for some targets in the Makefile:
 
 ```console
 brew install gnu-sed
