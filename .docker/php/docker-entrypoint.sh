@@ -16,7 +16,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/cakephp' ]; then
         fi
 
         COMPOSER_MEMORY_LIMIT=-1
-        composer create-project --prefer-dist --no-interaction cakephp/app:^4.2 .
+        composer create-project --prefer-dist --no-interaction cakephp/app:~4.2 .
         rm -rf .github
         cp config/.env.example config/.env
         cp config/app_local.example.php config/app_local.php
@@ -30,11 +30,14 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/cakephp' ]; then
         touch .gitkeep
     fi
 
+    echo "ENV: $APP_ENV"
     if [ "$APP_ENV" != 'prod' ]; then
         composer install --prefer-dist --no-interaction
     fi
 
     mkdir -p logs tmp
+
+    echo "HOST OS: "$HOST_OS""
     if ["$HOST_OS" = 'Linux']; then
         echo "setting ACLs..."
         setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX logs

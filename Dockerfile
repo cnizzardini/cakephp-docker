@@ -6,6 +6,7 @@ FROM cnizzardini/php-fpm-alpine:7.4-latest AS cakephp_php
 
 ARG ENV=prod
 ARG UID=1000
+ARG HOST_OS=Linux
 ENV APP_ENV=$ENV
 ENV HOST_OS=$HOST_OS
 
