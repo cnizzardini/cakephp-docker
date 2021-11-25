@@ -1,4 +1,4 @@
-SHELL=/bin/bash
+SHELL 			:= /bin/bash # set shell based on host os, use /bin/zsh for mac
 .DEFAULT_GOAL   := help
 
 #
@@ -107,12 +107,12 @@ help:
 init: do.copy
 	@printf $(DOCKER_ICO) && printf "$(GOOD)running docker build and up $(E)"
 	@mkdir -p app && touch app/.gitkeep
-	@docker-compose build --build-arg UID=$(shell id -u) --build-arg ENV=dev
+	@docker-compose build --build-arg UID=$(shell id -u) --build-arg ENV=dev --build-arg HOST_OS=$(shell uname -s)
 	@$(DC_UP)
 init.nocache: do.copy
 	@printf $(DOCKER_ICO) && printf "$(GOOD)running docker build --no-cache and up $(E)"
 	@mkdir -p app && touch app/.gitkeep
-	@docker-compose build --build-arg UID=$(shell id -u) --build-arg ENV=dev --no-cache
+	@docker-compose build --build-arg UID=$(shell id -u) --build-arg ENV=dev --no-cache --build-arg HOST_OS=$(shell uname -s)
 	@$(DC_UP)
 
 #

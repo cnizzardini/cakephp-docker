@@ -24,6 +24,7 @@ Dependencies:
 - Make
 
 - [Installation](#installation)
+- [MacOS Notes](#mac-notes)
 - [Usage](#usage)
   - [PHP](#php)
   - [MySQL](#mysql)
@@ -42,6 +43,18 @@ That's it! Now just remove `app/*` from [.gitignore](.gitignore). You may also w
 [.assets](.assets) and adjust defaults in [.github](.github), [.docker](.docker), and [.kube](.kube).
 
 > Note: `make init` and `make init.nocache` output interactively, while `make start` and `make up` do not.
+
+## Mac Notes
+
+1. Change your `SHELL` in the Makefile to `/bin/zsh`. This improves various output from the Makefile such as emoji's.
+
+3. Mac ships with an older version of `sed` so install `gnu-sed` for some targets in the Makefile:
+
+```console
+brew install gnu-sed
+```
+
+Then update `sed` to `gsed` in the Makefile.
 
 ## Usage
 
