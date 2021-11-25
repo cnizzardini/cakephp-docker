@@ -12,16 +12,17 @@ A [cakephp/app 4.3](https://github.com/cakephp/app) template for Docker Compose 
 interested in [CakePHP Galley](https://gitlab.com/amayer5125/galley) which is similar to Laravel Sail
 or [DevilBox](https://devilbox.readthedocs.io/en/latest/examples/setup-cakephp.html).
 
+#### Dependencies:
+
+- [Docker 20](https://docs.docker.com/engine/release-notes/) or higher
+- Make
+
 | Service                   | Host:Port         | Docker Host   | Image   |
 | -----------               | -----------       | -----------   | -----------   |
 | PHP8.0-FPM w/ Xdebug 3    | -                 | php           | [cnizzardini/php-fpm-alpine:8.0-latest](https://hub.docker.com/r/cnizzardini/php-fpm-alpine) |
 | NGINX 1.19                | localhost:8080    | web           | [nginx:1.19-alpine](https://hub.docker.com/_/nginx) |
 | MySQL 8                   | localhost:3607    | db            | [library/mysql:8](https://hub.docker.com/_/mysql) |
 
-Dependencies:
-
-- [Docker 2](https://docs.docker.com/engine/release-notes/) or higher
-- Make
 
 - [Installation](#installation)
 - [MacOS Notes](#mac-notes)
