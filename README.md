@@ -1,14 +1,14 @@
 # &#127856; CakePHP Docker
 
 [![Build](https://github.com/cnizzardini/cakephp-docker/workflows/Build/badge.svg?branch=master)](https://github.com/cnizzardini/cakephp-docker/actions)
-[![CakePHP](https://img.shields.io/badge/cakephp-4.2-red?logo=cakephp)](https://book.cakephp.org/4/en/index.html)
+[![CakePHP](https://img.shields.io/badge/cakephp-4-red?logo=cakephp)](https://book.cakephp.org/4/en/index.html)
 [![Docker](https://img.shields.io/badge/docker-ffffff.svg?logo=docker)](.docker)
 [![Kubernetes](https://img.shields.io/badge/kubernetes-D3D3D3.svg?logo=kubernetes)](.kube)
 [![PHP](https://img.shields.io/badge/php-8.0-8892BF.svg?logo=php)](https://hub.docker.com/_/php)
 [![NGINX](https://img.shields.io/badge/nginx-1.19-009639.svg?logo=nginx)](https://hub.docker.com/_/nginx)
 [![MySQL](https://img.shields.io/badge/mysql-8-00758F.svg?logo=mysql)](https://hub.docker.com/_/mysql)
 
-A [cakephp/app 4.3](https://github.com/cakephp/app) template for Docker Compose and Kubernetes. You might also be
+A [cakephp/app](https://github.com/cakephp/app) template for Docker Compose and Kubernetes. You might also be
 interested in [CakePHP Galley](https://gitlab.com/amayer5125/galley) which is similar to Laravel Sail
 or [DevilBox](https://devilbox.readthedocs.io/en/latest/examples/setup-cakephp.html).
 
@@ -31,6 +31,7 @@ or [DevilBox](https://devilbox.readthedocs.io/en/latest/examples/setup-cakephp.h
   - [MySQL](#mysql)
   - [NGINX](#nginx)
   - [Xdebug](#xdebug)
+- [Reinstall](#reinstall)
 
 ## Installation
 
@@ -151,3 +152,8 @@ Go to `File > Settings > Languages & Frameworks > PHP > Servers`
 - Use path mappings: `Enable`
 
 Map your project's app directory to the absolute path on the docker container `/srv/app`
+
+## Reinstall
+
+To completely reinstall delete existing containers and images, then remove the `app/` directory and run `make init`
+again.
