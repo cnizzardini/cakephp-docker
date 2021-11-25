@@ -4,17 +4,24 @@
 [![CakePHP](https://img.shields.io/badge/cakephp-4.2-red?logo=cakephp)](https://book.cakephp.org/4/en/index.html)
 [![Docker](https://img.shields.io/badge/docker-ffffff.svg?logo=docker)](.docker)
 [![Kubernetes](https://img.shields.io/badge/kubernetes-D3D3D3.svg?logo=kubernetes)](.kube)
-[![PHP](https://img.shields.io/badge/php-7.4-8892BF.svg?logo=php)](https://hub.docker.com/_/php)
+[![PHP](https://img.shields.io/badge/php-8.0-8892BF.svg?logo=php)](https://hub.docker.com/_/php)
 [![NGINX](https://img.shields.io/badge/nginx-1.19-009639.svg?logo=nginx)](https://hub.docker.com/_/nginx)
 [![MySQL](https://img.shields.io/badge/mysql-8-00758F.svg?logo=mysql)](https://hub.docker.com/_/mysql)
 
-A [cakephp/app 4.2](https://github.com/cakephp/app) template for Docker Compose and Kubernetes. You might also be interested in [CakePHP Galley](https://gitlab.com/amayer5125/galley) which is similar to Laravel Sail or [DevilBox](https://devilbox.readthedocs.io/en/latest/examples/setup-cakephp.html).
+A [cakephp/app 4.3](https://github.com/cakephp/app) template for Docker Compose and Kubernetes. You might also be
+interested in [CakePHP Galley](https://gitlab.com/amayer5125/galley) which is similar to Laravel Sail
+or [DevilBox](https://devilbox.readthedocs.io/en/latest/examples/setup-cakephp.html).
 
 | Service                   | Host:Port         | Docker Host   | Image   |
 | -----------               | -----------       | -----------   | -----------   |
-| PHP7.4-FPM w/ Xdebug 3    | -                 | php           | [cnizzardini/php-fpm-alpine:7.4-latest](https://hub.docker.com/r/cnizzardini/php-fpm-alpine) |
+| PHP8.0-FPM w/ Xdebug 3    | -                 | php           | [cnizzardini/php-fpm-alpine:8.0-latest](https://hub.docker.com/r/cnizzardini/php-fpm-alpine) |
 | NGINX 1.19                | localhost:8080    | web           | [nginx:1.19-alpine](https://hub.docker.com/_/nginx) |
 | MySQL 8                   | localhost:3607    | db            | [library/mysql:8](https://hub.docker.com/_/mysql) |
+
+Dependencies:
+
+- [Docker 2](https://docs.docker.com/engine/release-notes/) or higher
+- Make
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -129,4 +136,4 @@ Go to `File > Settings > Languages & Frameworks > PHP > Servers`
 - Debugger: `Xdebug`
 - Use path mappings: `Enable`
 
-Map your projects app directory to the absolute path on the docker container `/srv/app`
+Map your project's app directory to the absolute path on the docker container `/srv/app`
