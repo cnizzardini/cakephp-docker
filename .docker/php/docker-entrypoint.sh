@@ -37,9 +37,9 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/cakephp' ]; then
 
     mkdir -p logs tmp
 
-    echo "HOST OS: "$HOST_OS""
-    if ["$HOST_OS" = 'Linux']; then
-        echo "setting ACLs..."
+    echo "HOST OS: $HOST_OS"
+    if [[ $HOST_OS == *"Linux"* ]]; then
+        echo "Setting ACLs..."
         setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX logs
         setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX tmp
         setfacl -R -m g:nginx:rwX /srv/app
