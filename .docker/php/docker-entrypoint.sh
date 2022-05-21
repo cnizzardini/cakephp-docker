@@ -24,7 +24,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/cakephp' ]; then
 
         sed -i '/export APP_NAME/c\export APP_NAME="cakephp"' config/.env
 
-        salt=$(cat /dev/urandom | LC_CTYPE=C tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+        salt=$(openssl rand -base64 32)
         sed -i '/export SECURITY_SALT/c\export SECURITY_SALT="'$salt'"' config/.env
 
         touch .gitkeep
@@ -37,9 +37,10 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/cakephp' ]; then
 
     mkdir -p logs tmp
 
-    echo "HOST OS: "$HOST_OS""
-    if ["$HOST_OS" = 'Linux']; then
-        echo "setting ACLs..."
+    # Set ACLs for Linux users
+    echo "HOST OS: $HOST_OS"
+    if [[ $HOST_OS == *"Linux"* ]]; then
+        echo "Setting ACLs..."
         setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX logs
         setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX tmp
         setfacl -R -m g:nginx:rwX /srv/app
