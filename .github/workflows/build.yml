@@ -20,6 +20,8 @@ jobs:
       - name: Start
         run: docker-compose up -d
       - name: Wait for services
-        run: sleep 5
-      - name: HTTP Check
-        run: curl -v -o /dev/null http://localhost:8080
+        run: sleep 10
+      - name: Check CakePHP Welcome Page
+        run: curl -f -v -o /dev/null http://localhost:8080
+      - name: Check NGINX Files
+        run: curl -f -v -o /dev/null http://localhost:8080/css/home.css

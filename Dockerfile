@@ -35,8 +35,10 @@ COPY .assets /srv/.assets
 
 WORKDIR /srv/app
 
-RUN addgroup -g 101 nginx
 RUN adduser --disabled-password --gecos '' -u $UID cakephp;
+RUN addgroup -g 101 nginx
+RUN addgroup cakephp nginx
+RUN addgroup cakephp www-data
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
