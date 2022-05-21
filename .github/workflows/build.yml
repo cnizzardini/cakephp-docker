@@ -25,10 +25,3 @@ jobs:
         run: curl -f -v -o /dev/null http://localhost:8080
       - name: Check NGINX Files
         run: curl -f -v -o /dev/null http://localhost:8080/css/home.css
-
-
-  STATUSCODE=$(curl --silent --output /dev/stderr --write-out "%{http_code}" http://localhost:8080/css/home.css)
-
-  if test $STATUSCODE -ne 200; then
-  exit 1
-  fi
