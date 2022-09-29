@@ -24,7 +24,7 @@ jobs:
           fi
           TAGS="${DOCKER_IMAGE}:${VERSION}"
           if [[ $VERSION =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-            TAGS="$TAGS,${DOCKER_IMAGE}:4.2-latest"
+            TAGS="$TAGS,${DOCKER_IMAGE}:4.4-latest"
           fi
           echo ::set-output name=tags::${TAGS}
       -
