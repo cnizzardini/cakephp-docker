@@ -1,8 +1,8 @@
 #
 # container
 # @see https://hub.docker.com/repository/docker/cnizzardini/php-fpm-alpine
-# @see https://github.com/cnizzardini/php-fpm-alpine/tree/php-8.1
-FROM cnizzardini/php-fpm-alpine:8.1-latest AS cakephp_php
+# @see https://github.com/cnizzardini/php-fpm-alpine/tree/php-8.0
+FROM cnizzardini/php-fpm-alpine:8.0-latest AS cakephp_php
 
 ARG ENV=prod
 ARG UID=1000
