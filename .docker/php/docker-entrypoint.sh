@@ -16,7 +16,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/cakephp' ]; then
         fi
 
         COMPOSER_MEMORY_LIMIT=-1
-        composer create-project --prefer-dist --no-interaction cakephp/app:^4.4 .
+        composer create-project --prefer-dist --no-interaction cakephp/app:^5.0 .
         rm -rf .github
         cp config/.env.example config/.env
         cp config/app_local.example.php config/app_local.php
