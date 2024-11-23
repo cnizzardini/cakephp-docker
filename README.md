@@ -4,7 +4,7 @@
 [![CakePHP](https://img.shields.io/badge/cakephp-5-red?logo=cakephp)](https://book.cakephp.org/5/en/index.html)
 [![Docker](https://img.shields.io/badge/docker-ffffff.svg?logo=docker)](.docker)
 [![Kubernetes](https://img.shields.io/badge/kubernetes-D3D3D3.svg?logo=kubernetes)](.kube)
-[![PHP](https://img.shields.io/badge/php-8.1-8892BF.svg?logo=php)](https://hub.docker.com/_/php)
+[![PHP](https://img.shields.io/badge/php-8.2-8892BF.svg?logo=php)](https://hub.docker.com/_/php)
 [![NGINX](https://img.shields.io/badge/nginx-1.19-009639.svg?logo=nginx)](https://hub.docker.com/_/nginx)
 [![MySQL](https://img.shields.io/badge/mysql-8-00758F.svg?logo=mysql)](https://hub.docker.com/_/mysql)
 
@@ -19,7 +19,7 @@ or [DevilBox](https://devilbox.readthedocs.io/en/latest/examples/setup-cakephp.h
 
 | Service                | Host:Port      | Docker Host | Image                                                                                        |
 |------------------------|----------------|-------------|----------------------------------------------------------------------------------------------|
-| PHP8.1-FPM w/ Xdebug 3 | -              | php         | [cnizzardini/php-fpm-alpine:8.1-latest](https://hub.docker.com/r/cnizzardini/php-fpm-alpine) |
+| PHP8.2-FPM w/ Xdebug 3 | -              | php         | [cnizzardini/php-fpm-alpine:8.2-latest](https://hub.docker.com/r/cnizzardini/php-fpm-alpine) |
 | NGINX 1.19             | localhost:8080 | web         | [nginx:1.19-alpine](https://hub.docker.com/_/nginx)                                          |
 | MySQL 8                | localhost:3607 | db          | [library/mysql:8](https://hub.docker.com/_/mysql)                                            |
 
