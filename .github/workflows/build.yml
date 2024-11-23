@@ -5,7 +5,7 @@ on: [pull_request]
 jobs:
   build:
     name: Docker Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -14,11 +14,11 @@ jobs:
           cp .docker/php.env.development .docker/php.env
           cp .docker/mysql.env.development .docker/mysql.env
       - name: Pull images
-        run: docker-compose pull
+        run: docker compose pull
       - name: Build
-        run: docker-compose build --build-arg UID=$(id -u) --build-arg ENV=dev
+        run: docker compose build --build-arg UID=$(id -u) --build-arg ENV=dev
       - name: Start
-        run: docker-compose up -d
+        run: docker compose up -d
       - name: Wait for services
         run: sleep 10
       - name: Check CakePHP Welcome Page
