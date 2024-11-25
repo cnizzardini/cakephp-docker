@@ -19,7 +19,7 @@ or [DevilBox](https://devilbox.readthedocs.io/en/latest/examples/setup-cakephp.h
 
 | Service                | Host:Port      | Docker Host | Image                                                                                        |
 |------------------------|----------------|-------------|----------------------------------------------------------------------------------------------|
-| PHP8.3-FPM w/ Xdebug 3 | -              | php         | [cnizzardini/php-fpm-alpine:8.2-latest](https://hub.docker.com/r/cnizzardini/php-fpm-alpine) |
+| PHP8.3-FPM w/ Xdebug 3 | -              | php         | [cnizzardini/php-fpm-alpine:8.3-latest](https://hub.docker.com/r/cnizzardini/php-fpm-alpine) |
 | NGINX 1.19             | localhost:8080 | web         | [nginx:1.19-alpine](https://hub.docker.com/_/nginx)                                          |
 | MySQL 8                | localhost:3607 | db          | [library/mysql:8](https://hub.docker.com/_/mysql)                                            |
 
